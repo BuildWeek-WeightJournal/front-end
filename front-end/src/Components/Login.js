@@ -38,7 +38,8 @@ const Login = props => {
       .post("/api/auth/login", mergedObjects)
 
       .then(res => {
-        localStorage.setItem("token", res.data.payload);
+        console.log(res.data)
+        localStorage.setItem("token", res.data);
         props.history.push("/protected");
       })
 
@@ -48,7 +49,7 @@ const Login = props => {
   return (
     <div>
       <div>
-        <h1>Welcome to Weightlifing Journal</h1>
+        <h1>Welcome to Weightlifting Journal</h1>
 
         <h3>Please Login or Sign Up.</h3>
 
@@ -64,6 +65,7 @@ const Login = props => {
               <label htmlFor="username">Username: </label>
               <br />
               <Field
+                className="input"
                 id="username"
                 type="username"
                 name="username"
@@ -75,6 +77,7 @@ const Login = props => {
               <label htmlFor="password">Password: </label>
               <br />
               <Field
+                className="input"
                 id="password"
                 type="password"
                 name="password"
@@ -84,7 +87,7 @@ const Login = props => {
               <br />
               <br />
               <ErrorMessage name="password" component="div" />
-              <button type="submit" disabled={isSubmitting}>
+              <button className="signin-btn" type="submit" disabled={isSubmitting}>
                 Sign In
               </button>
               <p>or</p>
