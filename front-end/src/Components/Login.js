@@ -1,6 +1,10 @@
 import React, { useState } from "react";
-import { axiosWithAuth } from "./utils/axiosWithAuth";
+
 import { Link } from "react-router-dom";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import "../App.css";
+
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 
 const Login = props => {
   const [username, setUsername] = useState({
@@ -11,68 +15,85 @@ const Login = props => {
     password: ""
   });
 
-  const userHandleChange = e => {
+  const userHandleChange = event => {
+    // @ts-ignore
     setUsername({
-      username: e.target.value
+      username: event.target.value
     });
   };
 
-  const passwordHandleChange = e => {
+  const passwordHandleChange = event => {
+    // @ts-ignore
     setPassword({
-      password: e.target.value
+      password: event.target.value
     });
   };
 
-  const mergedSignin = { ...username, ...password };
+  const mergedObjects = { ...username, ...password };
 
   const login = e => {
     e.preventDefault();
 
     axiosWithAuth()
-      .post("/api/auth/login", mergedSignin)
+      .post("/api/auth/login", mergedObjects)
 
       .then(res => {
         localStorage.setItem("token", res.data.payload);
         props.history.push("/protected");
       })
+
       .catch(err => console.log(err));
   };
 
   return (
     <div>
       <div>
-        <h1>Login Page</h1>
+        <h1>Welcome to Weightlifing Journal</h1>
 
-        <form onSubmit={login}>
-          <label htmlFor="username">Username: </label>
-          <br />
-          <input
-            id="username"
-            type="username"
-            name="username"
-            value={username.username}
-            onChange={userHandleChange}
-          />
-          <br />
+        <h3>Please Login or Sign Up.</h3>
 
-          <label htmlFor="password">Password: </label>
-          <br />
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={password.password}
-            onChange={passwordHandleChange}
-          />
-          <br />
-          <br />
-
-          <button type="submit">Sign In</button>
-          <p>or</p>
-          <Link to="/signup">
-            <button>Sign Up Here</button>
-          </Link>
-        </form>
+        <Formik
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              setSubmitting(false);
+            }, 400);
+          }}
+        >
+          {({ isSubmitting }) => (
+            <Form onSubmit={login}>
+              <label htmlFor="username">Username: </label>
+              <br />
+              <Field
+                id="username"
+                type="username"
+                name="username"
+                value={username.username}
+                onChange={userHandleChange}
+              />
+              <br />
+              <ErrorMessage name="email" component="div" />
+              <label htmlFor="password">Password: </label>
+              <br />
+              <Field
+                id="password"
+                type="password"
+                name="password"
+                value={password.password}
+                onChange={passwordHandleChange}
+              />
+              <br />
+              <br />
+              <ErrorMessage name="password" component="div" />
+              <button type="submit" disabled={isSubmitting}>
+                Sign In
+              </button>
+              <p>or</p>
+              <Link to="/signup">
+                <button>Sign Up Here</button>
+              </Link>
+            </Form>
+          )}
+        </Formik>
       </div>
     </div>
   );

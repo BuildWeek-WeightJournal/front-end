@@ -1,19 +1,22 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Private from "./Components/PrivateRoute";
+
 
 import "./App.css";
-
-import Login from './Components/Login';
+import SignUp from "./Components/SignUp";
+import Login from "./Components/Login";
 
 function App() {
   return (
     <div className="App">
       <Router>
-      <h1>Weightlifting Journal</h1>
 
-      <Switch>
-        <Route path='/login' component={Login}/>
-      </Switch>
+        <Switch>
+          <Route path="/login" component={Login} />
+          <Route exact path='/signup' component={SignUp} />
+          <Route component={Login}/>
+        </Switch>
       </Router>
     </div>
   );
