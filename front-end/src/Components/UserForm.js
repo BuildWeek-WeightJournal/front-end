@@ -1,4 +1,5 @@
 import React from "react";
+
 import {withFormik,  Form,  Field} from "formik";
 import  * as Yup from 'yup';
 const UserForm = ({values,errors,touched,isSubmitting})=> {
@@ -28,7 +29,8 @@ return(
   </Form>
 </div>
   );
-}
+};
+
 const FormikUserForm = withFormik({
 mapPropsToValues({userName, password}){
   return{
@@ -53,3 +55,4 @@ setSubmitting(false)
 }
 })(UserForm)
 export default FormikUserForm;
+
