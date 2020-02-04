@@ -11,7 +11,7 @@ const NavBar = props => (
       <div>
         
 
-        <DrawerToggleButton />
+        {/* <DrawerToggleButton /> */}
 
       </div>
       <div className="navbar-logo">

@@ -26,7 +26,7 @@ return(
     </label>
     <button disabled={isSubmitting}>Sign In</button>
   </Form>
-</div>;
+</div>
   );
 }
 const FormikUserForm = withFormik({
