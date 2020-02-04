@@ -7,7 +7,7 @@ const NavBar = props => (
   <header className="navbar">
     <nav className="navbar-navigation">
       <div>
-        <DrawerToggleButton />{" "}
+        <DrawerToggleButton />
       </div>
       <div className="navbar-logo">
         <a href="/">WEIGHT LIFTING JOURNAL</a>
