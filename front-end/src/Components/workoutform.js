@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
-import anime from './anime-master/lib/anime.es.js';
+// import anime from './anime-master/lib/anime.es.js';
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
 //Select button with query selector then use animejs library to add animation
-var elements = document.querySelectorAll('button');
-anime({
-  targets: elements,
-  translateX: 270
-});
+// var elements = document.querySelectorAll('button');
+// anime({
+//   targets: elements,
+//   translateX: 270
+// });
 
 const WorkoutForm = ({ values, errors, touched, status }) => {
-const [workout, setWorkout] = useState([]);
+const [workout, setWorkout] = useState([{}]);
   useEffect(() => {
     console.log("status has changed", status);
     status && setWorkout(workout => 
@@ -21,15 +21,15 @@ const [workout, setWorkout] = useState([]);
     return(
         <div className="workout-form">
             <Form>
-                <label htmlFor="workoutName">
+                <label htmlFor="name">
                     Please enter your a name for your workout:
-                <Field id ="workoutName" type="text" name="workoutName"/>
-                {touched.workoutName && errors.workoutName && (
-            <p className="errors"> {errors.workoutName} </p>
+                <Field id ="name" type="text" name="name" placeholder="name"/>
+                {touched.name && errors.name && (
+            <p className="errors"> {errors.name} </p>
           )}
                 </label>
                 <Field className="muscle" as="select" name="muscle">
-                    <option disabled>Choose a muscle group</option>
+                    <option>Choose a muscle group</option>
                     <option value="Chest">Chest</option>
                     <option value="Biceps">Biceps</option>
                     <option value="Triceps">Triceps</option>
@@ -42,13 +42,13 @@ const [workout, setWorkout] = useState([]);
                     <option value="Calves">Calves</option>
                 </Field>
                 <label htmlFor="sets">
-                <Field id ="sets" type="text" name="sets"/>
+                <Field id ="sets" type="text" name="sets" placeholder="sets"/>
                 {touched.sets && errors.sets && (
             <p className="errors"> {errors.sets} </p>
           )}
                 </label>
                 <label htmlFor="reps">
-                <Field id ="reps" type="text" name="reps"/>
+                <Field id ="reps" type="text" name="reps" placeholder="reps"/>
                 {touched.reps && errors.reps && (
             <p className="errors"> {errors.reps} </p>
           )}
@@ -56,19 +56,23 @@ const [workout, setWorkout] = useState([]);
                 <Field as="textarea" type="text" name="notes" placeholder="Notes" />
                 <button type="submit">Add Workout</button>
             </Form>
-            {workout.map(workout => (
-	  <ul key={workout.id}>
-	    <li>Name: {workout.workoutName}</li>
-	    <li>Muscle: {workout.muscle}</li>
-	    <li>Sets: {workout.sets}</li>
-        <li>Reps: {workout.reps}</li>
-	  </ul>
+  {workout.map(props => (
+	  <div>
+      <ul key={props.id}>
+        <h3>Name: {props.name}</h3>
+        <li>Muscle: {props.muscle}</li>
+        <li>Sets: {props.sets}</li>
+        <li>Reps: {props.reps}</li>
+        <li>Notes: {props.notes}</li>
+        <button> Edit Workout</button>
+	   </ul>
+    </div>
 	))}
         </div>
     )
 };
 const FormikWorkoutForm = withFormik({
-    mapPropsToValues({ name, muscle, sets, reps, notes }) {
+    mapPropsToValues({name, muscle, sets, reps, notes }) {
       return {
         name: name || "",
         muscle: muscle || "",
@@ -78,10 +82,9 @@ const FormikWorkoutForm = withFormik({
       };
     },
     validationSchema: Yup.object().shape({
-        workoutName: Yup.string().required("Name is required!"),
-        muscle: Yup.string().required(),
-        sets: Yup.string().required(),
-        reps: Yup.string().required()
+        name: Yup.string().required("Name is required!"),
+        sets: Yup.string().required("Number of sets is required!"),
+        reps: Yup.string().required("Number of reps is required!"),
       }),
 
       handleSubmit(values, {setStatus, resetForm}) {
