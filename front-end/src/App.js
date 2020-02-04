@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Private from "./Components/PrivateRoute";
 
+
+import UpdateWorkout from './Components/UpdateWorkout';
 import SideDrawer from "./Components/SideDrawer/SideDrawer";
 import BackDrop from "./Components/BackDrop/BackDrop";
 import WorkoutForm from "./Components/workoutform";
@@ -16,18 +18,13 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <NavBar />
-
         <Switch>
-          <UserForm />
-          <SideDrawer />
-          <BackDrop />
-          <SignUp />
-
+          <Private exact path="/protected/workout" component={WorkoutForm} />
+          <Route path ='/update_workout/:id' render = {props =>
+          (<UpdateWorkout {...props} />)}/>
           <Route path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/signup" component={UserForm} />
           <Route component={Login} />
-          <Route path="/workout" component={WorkoutForm} />
         </Switch>
       </Router>
     </div>

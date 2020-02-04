@@ -38,9 +38,9 @@ const Login = props => {
       .post("/api/auth/login", mergedObjects)
 
       .then(res => {
-        console.log(res.data)
+        console.log(res.data);
         localStorage.setItem("token", res.data);
-        props.history.push("/protected");
+        props.history.push("/protected/workout");
       })
 
       .catch(err => console.log(err));
@@ -48,55 +48,62 @@ const Login = props => {
 
   return (
     <div>
-      <div>
-        <h1>Welcome to Weightlifting Journal</h1>
+      <div className="login-wrapper">
+        <div className="content-wrapper">
+          <h1>Welcome to Weightlifting Journal</h1>
 
-        <h3>Please Login or Sign Up.</h3>
+          <h3>Please Login or Sign Up.</h3>
 
-        <Formik
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              setSubmitting(false);
-            }, 400);
-          }}
-        >
-          {({ isSubmitting }) => (
-            <Form onSubmit={login}>
-              <label htmlFor="username">Username: </label>
-              <br />
-              <Field
-                className="input"
-                id="username"
-                type="username"
-                name="username"
-                value={username.username}
-                onChange={userHandleChange}
-              />
-              <br />
-              <ErrorMessage name="email" component="div" />
-              <label htmlFor="password">Password: </label>
-              <br />
-              <Field
-                className="input"
-                id="password"
-                type="password"
-                name="password"
-                value={password.password}
-                onChange={passwordHandleChange}
-              />
-              <br />
-              <br />
-              <ErrorMessage name="password" component="div" />
-              <button className="signin-btn" type="submit" disabled={isSubmitting}>
-                Sign In
-              </button>
-              <p>or</p>
-              <Link to="/signup">
-                <button>Sign Up Here</button>
-              </Link>
-            </Form>
-          )}
-        </Formik>
+          <Formik
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                setSubmitting(false);
+              }, 400);
+            }}
+          >
+            {({ isSubmitting }) => (
+              <Form onSubmit={login}>
+                <br />
+                <Field
+                  className="input"
+                  placeholder="Username"
+                  id="username"
+                  type="username"
+                  name="username"
+                  value={username.username}
+                  onChange={userHandleChange}
+                />
+                <br />
+                <ErrorMessage name="email" component="div" />
+
+                <br />
+                <Field
+                  className="input"
+                  placeholder="Password"
+                  id="password"
+                  type="password"
+                  name="password"
+                  value={password.password}
+                  onChange={passwordHandleChange}
+                />
+                <br />
+                <br />
+                <ErrorMessage name="password" component="div" />
+                <button
+                  className="signin-btn"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  Log in
+                </button>
+                <p>or</p>
+                <Link to="/signup">
+                  <button>Sign Up Here</button>
+                </Link>
+              </Form>
+            )}
+          </Formik>
+        </div>
       </div>
     </div>
   );
