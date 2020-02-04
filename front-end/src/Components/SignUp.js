@@ -34,12 +34,13 @@ const SignUp = props => {
       ...prev
     }));
     axiosWithAuth()
-      .post("", credentials)
+      .post("/api/auth/register", credentials)
       .then(res => {
+        console.log(res.data)
         setError(error);
       })
       .catch(err => {
-        setError(err);
+        setError(error);
       });
   };
 
@@ -47,11 +48,11 @@ const SignUp = props => {
     if (username.username !== "" && password.password !== "") {
       setTimeout(() => {
         props.history.push("/login");
-      }, 1000);
+      }, 400);
     }
   };
 
-  const [error, setError, loading, setLoading] = useState("");
+  const [error, setError] = useState("");
 
   return (
     <div>
