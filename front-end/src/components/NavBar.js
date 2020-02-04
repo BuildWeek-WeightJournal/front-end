@@ -1,13 +1,18 @@
 import React from "react";
 import { Route } from "react";
+
 import DrawerToggleButton from "../Components/SideDrawer/DrawerToggleButton";
 import "./NavBar.css";
+
 
 const NavBar = props => (
   <header className="navbar">
     <nav className="navbar-navigation">
       <div>
+        
+
         <DrawerToggleButton />
+
       </div>
       <div className="navbar-logo">
         <a href="/">WEIGHT LIFTING JOURNAL</a>

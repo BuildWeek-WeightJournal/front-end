@@ -7,6 +7,7 @@ import SideDrawer from "./components/SideDrawer/SideDrawer";
 import BackDrop from "./components/BackDrop/BackDrop";
 import WorkoutForm from "./Components/workoutform";
 
+
 import "./App.css";
 import SignUp from "./Components/SignUp";
 import Login from "./Components/Login";
@@ -16,12 +17,16 @@ function App() {
     return(
     <div className="App">
       <Router>
-        <Switch>
           <NavBar />
+
+        <Switch>
+          
+
           <UserForm/>
           <SideDrawer />
           <BackDrop />
           <SignUp/>
+
           <Route path="/login" component={Login} />
           <Route exact path="/signup" component={SignUp} />
           <Route component={Login} />
