@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Private from "./Components/PrivateRoute";
 
 import NavBar from "./Components/NavBar";
-import SideDrawer from "./components/SideDrawer/SideDrawer";
-import BackDrop from "./components/BackDrop/BackDrop";
+import SideDrawer from "./Components/SideDrawer/SideDrawer";
+import BackDrop from "./Components/BackDrop/BackDrop";
 
 import "./App.css";
 import SignUp from "./Components/SignUp";
