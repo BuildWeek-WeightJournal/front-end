@@ -11,7 +11,7 @@ import NavBar from "./Components/NavBar";
 import "./App.css";
 import SignUp from "./Components/SignUp";
 import Login from "./Components/Login";
-// import UserForm from "./Components/UserForm";
+import UserForm from "./Components/UserForm";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
             render={props => <UpdateWorkout {...props} />}
           />
           <Route path="/login" component={Login} />
-          {/* <Route exact path="/signup" component={UserForm} /> */}
+          <Route exact path="/signup" component={UserForm} />
           <Route component={Login} />
         </Switch>
       </Router>
