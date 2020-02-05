@@ -20,15 +20,17 @@ const testWorkout = {
   note: workout.note,
   id: workout.id
 }
-// useEffect(() => {
-//   axios.get(`https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${props.match.params.userId}`)
-//   .then(res => {
-//     console.log(res);
-//     setWorkout(res.data)
-//   })
-//   .catch(err => {
-//     console.log(err)
-// }, [props.match.params.id])
+
+useEffect(() => {
+  axios.get(`https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${props.match.params.userId}`)
+  .then(res => {
+    console.log(res);
+    setWorkout(res.data)
+  })
+  .catch(err => {
+    console.log(err)
+}), [props.match.params.id]}
+
 
 const handleChanges = e => {
   setWorkout({
