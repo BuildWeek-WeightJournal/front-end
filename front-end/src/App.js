@@ -18,13 +18,14 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <Private exact path="/protected/workout" component={WorkoutForm} />
+        {/* <Private exact path="/protected/my_workouts" component={Workouts} /> */}
+          <Private path="/protected/add_workout" component={WorkoutForm} />
           <Route
             path="/update_workout/:id"
             render={props => <UpdateWorkout {...props} />}
           />
           <Route path="/login" component={Login} />
-          <Route exact path="/signup" component={UserForm} />
+          <Route exact path="/signup" component={SignUp} />
           <Route component={Login} />
         </Switch>
       </Router>
