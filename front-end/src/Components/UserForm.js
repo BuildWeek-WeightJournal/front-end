@@ -111,7 +111,7 @@ const FormikUserForm = withFormik({
         // console.log("The post requested: ", err.response);
       });
     setTimeout(() => {
-      if (values.userName === values.users) {
+      if (values.userName === values.userName) {
         setErrors({ userName: "That user is already taken" });
       } else {
         resetForm();

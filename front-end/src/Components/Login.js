@@ -50,9 +50,9 @@ const Login = props => {
     <div>
       <div className="login-wrapper">
         <div className="content-wrapper">
-          <h1>Welcome to Weightlifting Journal</h1>
+          <h1>Welcome to Lift Tracker</h1>
 
-          <h3>Please Login or Sign Up.</h3>
+          <p>Weight-Lifting Journal</p>
 
           <Formik
             onSubmit={(values, { setSubmitting }) => {
@@ -96,7 +96,7 @@ const Login = props => {
                 >
                   Log in
                 </button>
-                <p>or</p>
+                <p>Don't have an account?</p>
                 <Link to="/signup">
                   <button>Sign Up Here</button>
                 </Link>
