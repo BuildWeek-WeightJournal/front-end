@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react";
-
+import { Link } from 'react-router-dom';
 import DrawerToggleButton from "../Components/SideDrawer/DrawerToggleButton";
 import "./NavBar.css";
 
@@ -20,7 +20,10 @@ const NavBar = props => (
             <a href="/">My Exercises</a>
           </li>
           <li>
-            <a href="/">Add Exercise</a>
+            <Link to='/protected/add_workout'>
+              <p>Add Exercise</p>
+            {/* <a href="/">Add Exercise</a> */}
+            </Link>
           </li>
           <li>
             <a href="/">Logout</a>
