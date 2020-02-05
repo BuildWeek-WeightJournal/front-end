@@ -101,7 +101,7 @@ const FormikUserForm = withFormik({
   }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
     axios
-      .post("https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/", values)
+      .post("https://weightliftingjournal-buildweek.herokuapp.com/api/users/", values)
       .then(res => {
         // console.log("Success", res);
         setStatus(res.data);

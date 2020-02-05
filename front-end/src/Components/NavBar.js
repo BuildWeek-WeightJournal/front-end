@@ -17,10 +17,10 @@ const NavBar = props => (
       <div className="navbar-navigation-items">
         <ul>
           <li>
-            <a href="/">My Exercises</a>
+            <a href="/">Work Outs</a>
           </li>
           <li>
-            <a href="/">Add Exercise</a>
+            <a href="/">New Workout</a>
           </li>
           <li>
             <a href="/">Logout</a>
