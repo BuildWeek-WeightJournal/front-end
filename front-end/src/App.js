@@ -55,7 +55,7 @@ const[sideDrawerOpen, setSideDrawerOpen]= useState(false);
             render={props => <UpdateWorkout {...props} />}
           />
           <Route path="/login" component={Login} />
-          <Route exact path="/signup" component={UserForm} />
+          <Route exact path="/signup" component={SignUp} />
           <Route component={Login} />
         </Switch>
       </Router>

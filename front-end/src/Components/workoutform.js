@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { postWorkout } from "..//actions/actions";
-
+import Navbar from './NavBar';
 const WorkoutForm = props => {
   const [workout, setWorkout] = useState({
     workoutName: "",
@@ -36,6 +36,7 @@ const WorkoutForm = props => {
 
   return (
     <div>
+      <Navbar />
       <form onSubmit={handleSubmit}>
       <input
             type="text"

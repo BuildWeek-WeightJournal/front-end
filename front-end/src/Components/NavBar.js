@@ -13,6 +13,27 @@ const NavBar = props => (
         <h3>WEIGHT-LIFTING JOURNAL</h3>
       </div>
       <div className="spacer" />
+
+//       <div className="navbar-navigation-items">
+//         <ul>
+//           <li>
+//             <Link to="/protected/my_workouts">
+//             <p>Work Outs</p>
+//             </Link>
+//           </li>
+//           <li>
+//             <Link to="/protected/add_workout">
+//               <p>Add Exercise</p>
+//             </Link>
+//           </li>
+//           <li>
+//           <Link to="/login">
+//             <p>Log Out</p>
+//             </Link>
+//           </li>
+//         </ul>
+//       </div>
+
       <Router>
         <div className="navbar-navigation-items">
           <ul>
@@ -32,6 +53,7 @@ const NavBar = props => (
           </ul>
         </div>
       </Router>
+
     </nav>
   </header>
 );
