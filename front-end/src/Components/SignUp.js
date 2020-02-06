@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
-import { Formik, Form, Field } from "formik";
+import { withFormik, Formik, Form, Field } from "formik";
+
+
+import * as Yup from "yup";
 
 const SignUp = props => {
   const [username, setUsername] = useState({
@@ -49,7 +52,7 @@ const SignUp = props => {
     if (username.username !== "" && password.password !== "") {
       setTimeout(() => {
         props.history.push("/login");
-      }, 400);
+      }, 1000);
     }
   };
 
@@ -105,4 +108,49 @@ const SignUp = props => {
   );
 };
 
-export default SignUp;
+const FormikUserForm = withFormik({
+  mapPropsToValues({ username, password }) {
+    return {
+      userName: username || "",
+      password: password || ""
+    };
+  },
+  validationSchema: Yup.object().shape({
+    username: Yup.string().required("User name is required"),
+    password: Yup.string()
+      .min(7, "Password must be 7 Characters")
+      .required("Pasword is required")
+  }),
+  handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
+    setTimeout(() => {
+      if (values.username === values.username) {
+        setErrors({ userName: "That user is already taken" });
+      } else {
+        resetForm();
+      }
+      setSubmitting(false);
+    }, 2000);
+
+    axiosWithAuth()
+      .post("/api/auth/register", values)
+      // axios
+      //   .post(
+      //     "https://weightliftingjournal-buildweek.herokuapp.com/api/auth/register",
+      //     values
+      //   )
+      .then(res => {
+        // console.log("Success", res);
+        setStatus(res.data.id);
+        resetForm();
+        console.log(res.data.id);
+      })
+      .catch(err => {
+        // console.log("The post requested: ", err.response);
+      });
+
+    console.log(values);
+  }
+})(SignUp);
+export default FormikUserForm;
+
+// export default SignUp;

@@ -8,7 +8,10 @@ export const POST_WORKOUT_ERROR = "POST_WORKOUT_ERROR";
 export const postWorkout = workoutValues => dispatch => {
   dispatch({ type: POST_WORKOUT_START });
   axios
-    .post("", workoutValues)
+    .post(
+      "https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId",
+      workoutValues
+    )
     .then(res => {
       dispatch({ type: POST_WORKOUT_SUCCESS, payload: res.data });
       console.log("It worked", res);
@@ -39,11 +42,13 @@ export const DELETE_WORKOUT_ERROR = "DELETE_WORKOUT_ERROR";
 export const deleteWorkout = (id, props) => dispatch => {
   dispatch({ type: DELETE_WORKOUT_START });
   axios
-    .delete("")
+    .delete(
+      "https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:workoutId"
+    )
     .then(res => {
       console.log(res);
       dispatch({ type: DELETE_WORKOUT_SUCCESS, payload: id });
-      props.history.push("/protected");
+      props.history.push("/protected/my_workouts");
     })
     .catch(err => {
       console.log(err);
@@ -58,7 +63,10 @@ export const EDIT_WORKOUT_ERROR = "EDIT_WORKOUT_ERROR";
 export const editWorkout = (id, workoutValues) => dispatch => {
   dispatch({ type: EDIT_WORKOUT_START });
   axios
-    .put(``, workoutValues)
+    .put(
+      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId`,
+      workoutValues
+    )
     .then(res => {
       console.log(res);
       dispatch({ type: EDIT_WORKOUT_SUCCESS, payload: res.data });

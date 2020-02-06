@@ -4,6 +4,7 @@ import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
 import axios from "axios";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 
 const HeaderTwo = styled.h2`
   float: left;
@@ -43,12 +44,13 @@ const StyledLink = styled(Link)`
   color: whitesmoke;
 `;
 
-const UserForm = ({ values, errors, touched, isSubmitting, status }) => {
+const UserForm = ({ values, errors, touched, isSubmitting, status, props }) => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     // console.log("status has changed", status);
     status && setUsers(users => [...users, status]);
   }, [status]);
+
   return (
     <div>
       <HeaderTwo>WEIGHT-LIFTING-JOURNAL</HeaderTwo>
@@ -108,6 +110,7 @@ const FormikUserForm = withFormik({
       }
       setSubmitting(false);
     }, 2000);
+
     axios
       .post(
         "https://weightliftingjournal-buildweek.herokuapp.com/api/auth/register",
@@ -117,6 +120,7 @@ const FormikUserForm = withFormik({
         // console.log("Success", res);
         setStatus(res.data);
         resetForm();
+        console.log(res.data);
       })
       .catch(err => {
         // console.log("The post requested: ", err.response);
