@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-// <<<<<<< New-Robert-Stepanov
-// import { axiosWithAuth } from "./utils/axiosWithAuth";
+
 // import axios from 'axios';
 // import {
 //   Card,
@@ -13,21 +12,6 @@ import React, { useState, useEffect } from "react";
 
 // const Workouts = props => {
 //   const [workouts, setWorkouts] = useState([]);
-
-//   useEffect(() => {
-//     const id = '';
-//     axios
-//       .get(
-//         `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId/${id}`
-//       )
-//       .then(res => {
-//         setWorkouts(res.data);
-//         console.log(res.data)
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   }, []);
 
 //   const handleDelete = id => {
 //     axios
@@ -50,6 +34,7 @@ import NavBar from "./NavBar";
 import { editWorkout, fetchWorkouts } from "../actions/actions";
 import { connect } from "react-redux";
 import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 
 const cardStyle = {
   margin: "auto",
@@ -72,25 +57,74 @@ const Workouts = props => {
 
   console.log(localStorage);
   useEffect(() => {
-    if (props.exerciseList === 0) {
-      props.fetchWorkouts(userId);
-    }
-    setWorkouts(props.exerciseList);
-    console.log(props.exerciseList);
-  }, [props, props.exerciseList]);
+    axiosWithAuth()
+      .get(`/api/workouts/${userId}`)
+      .then(res => {
+        setWorkouts(res.data);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div>
       <NavBar />
       <h1>My Workouts</h1>
-// <<<<<<< New-Robert-Stepanov
-//       {workouts.map(workoutList => {
+      <Container>
+        <Row>
+          <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
+            {workouts.map(data => (
+              <Card style={cardStyle} key={data.id}>
+                <CardTitle>Name: {data.name}</CardTitle>
+                <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
+                <CardSubtitle>Weight: {data.weight}</CardSubtitle>
+                <CardSubtitle>Reps: {data.reps}</CardSubtitle>
+                <button> Edit Workout</button>
+              </Card>
+            ))}
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  return {
+    exerciseList: state.exerciseList,
+    isFetching: state.isFetching
+  };
+};
+
+export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
+  Workouts
+);
+
+//   useEffect(() => {
+//     const id = '';
+//     axios
+//       .get(
+//         `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId/${id}`
+//       )
+//       .then(res => {
+//         setWorkouts(res.data);
+//         console.log(res.data)
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   }, []);
+
+{
+  /* //       {workouts.map(workoutList => { 
 //         return (
 //           <div key={workoutList.id}>
 //             <CardDeck className="wrapper">
 //               <Card className="card-wrapper" key={workouts.id}>
 //                 <CardBody className="card-body">
-//                   {/* <CardTitle>Date: {exerciseList.date}</CardTitle> */}
+//                   {/* <CardTitle>Date: {exerciseList.date}</CardTitle> 
 //                   <CardTitle>Exercise: workoutList.workoutName}</CardTitle>
 //                   <CardTitle>Weight: {workoutList.weight}</CardTitle>
 //                   <CardSubtitle>Sets: {workoutList.sets}</CardSubtitle>
@@ -121,33 +155,5 @@ const Workouts = props => {
 //   );
 // };
 
-// export default Workouts;
-      <Container>
-        <Row>
-          <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
-            {workouts.map(data => (
-              <Card style={cardStyle} key={data.id}>
-                <CardTitle>Name: {data.name}</CardTitle>
-                <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
-                <CardSubtitle>Weight: {data.weight}</CardSubtitle>
-                <CardSubtitle>Reps: {data.reps}</CardSubtitle>
-                <button> Edit Workout</button>
-              </Card>
-            ))}
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
-};
-
-const mapStateToProps = state => {
-  return {
-    exerciseList: state.exerciseList,
-    isFetching: state.isFetching
-  };
-};
-
-export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
-  Workouts
-);
+// export default Workouts; */
+}
