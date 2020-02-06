@@ -31,7 +31,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 
 //from dependencies
-import { editWorkout, fetchWorkouts } from "../actions/actions";
+import { editWorkout, fetchWorkouts, deleteWorkout } from "../actions/actions";
 import { connect } from "react-redux";
 import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
@@ -55,11 +55,12 @@ const Workouts = props => {
 
   const userId = localStorage.getItem("userId");
 
-  // const handleDelete = id => {
-  //   axiosWithAuth().delete(
-  //     `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
-  //   );
-  // };
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    axiosWithAuth().delete(
+      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
+    );
+  };
 
   console.log(localStorage);
   useEffect(() => {
@@ -94,7 +95,7 @@ const Workouts = props => {
                 >
                   Edit
                 </button>
-                <button>Delete</button>
+                <button onClick={() => deleteWorkout(data.id)}>Delete</button>
               </Card>
             ))}
           </Col>
@@ -107,13 +108,16 @@ const Workouts = props => {
 const mapStateToProps = state => {
   return {
     exerciseList: state.exerciseList,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    isDeleting: state.isDeleting
   };
 };
 
-export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
-  Workouts
-);
+export default connect(mapStateToProps, {
+  editWorkout,
+  fetchWorkouts,
+  deleteWorkout
+})(Workouts);
 
 //   useEffect(() => {
 //     const id = '';
