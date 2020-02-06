@@ -16,6 +16,7 @@ import UserForm from "./Components/UserForm";
 function App() {
   return (
     <div className="App">
+        <NavBar/>
       <Router>
         <Switch>
           <Private exact path="/protected/workout" component={WorkoutForm} />
