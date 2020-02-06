@@ -100,6 +100,17 @@ const FormikUserForm = withFormik({
       .required("Pasword is required")
   }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
+      setTimeout(() => {
+        if (values.userName === values.users) {
+          setErrors({ userName: "That user is already taken" });
+        } else {
+          resetForm();
+        }
+        setSubmitting(false);
+      }, 2000);
+      console.log(values);
+    
+    
     axios
       .post("https://weightliftingjournal-buildweek.herokuapp.com/api/auth/register", values)
       .then(res => {
@@ -110,15 +121,7 @@ const FormikUserForm = withFormik({
       .catch(err => {
         // console.log("The post requested: ", err.response);
       });
-    setTimeout(() => {
-      if (values.userName === values.users) {
-        setErrors({ userName: "That user is already taken" });
-      } else {
-        resetForm();
-      }
-      setSubmitting(false);
-    }, 2000);
-    console.log(values);
+    
   }
 })(UserForm);
 export default FormikUserForm;

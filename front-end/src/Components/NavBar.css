@@ -14,14 +14,18 @@ padding: 0 1rem;
 }
 
 .navbar-logo h3:hover {
-color:whitesmoke;
+color:orange;
 cursor:pointer;
-margin-left:1rem;
 transform: rotateY(-360deg);
 transition-duration:1000ms;
 
 }
 
+h3{
+  margin-left:1.2rem;  
+  color:whitesmoke;
+    
+}
 
 /* .navbar-logo a {
   color:white;
