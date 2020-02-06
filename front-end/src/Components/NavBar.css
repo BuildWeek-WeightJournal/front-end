@@ -14,7 +14,7 @@ padding: 0 1rem;
 }
 
 .navbar-logo h3:hover {
-color:orange;
+color: white;
 cursor:pointer;
 transform: rotateY(-360deg);
 transition-duration:1000ms;
@@ -23,22 +23,16 @@ transition-duration:1000ms;
 
 h3{
   margin-left:1.2rem;  
-  color:whitesmoke;
+  color:white;
     
 }
 
-/* .navbar-logo a {
-  color:white;
-  font-size: 1rem;
-  text-decoration:none;
-} */
 
 .spacer{
     flex:1;
 }
 
 .navbar-navigation-items ul {
- display: flex;
  list-style: none;
  margin: 0;
  padding: 0;
@@ -50,8 +44,11 @@ padding:0 0.5rem;
 }
 
 .navbar-navigation-items{
-    color:white;
-    text-decoration: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-evenly;
+  width: 600px;
 }
 
 a{
@@ -60,5 +57,5 @@ text-decoration: none;
 }
 .navbar-navigation-items a:hover,
 .navbar-navigation-items a:active{
- color:orange;   
+ color:black;   
 }

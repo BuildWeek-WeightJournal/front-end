@@ -15,21 +15,15 @@ const NavBar = props => (
       <div className="spacer" />
       <Router>
         <div className="navbar-navigation-items">
-          <ul>
-            <li>
-              <a href="/">Work Outs</a>
-            </li>
-            <li>
-              <a href="/">New Work Out</a>
-
-              <Link to="/protected/add_workout">
-                <p>Add Exercise</p>
-              </Link>
-            </li>
-            <li>
-              <a href="/">Logout</a>
-            </li>
-          </ul>
+          <div>
+            <Link to={`/`}><a href="/">Work Outs</a></Link>
+          </div>
+          <div>
+            <Link to={`/protected/add_workout`}>Add Exercise</Link>
+            </div>
+            <div>
+            <Link to={`/`}>Logout</Link>
+            </div>
         </div>
       </Router>
     </nav>
