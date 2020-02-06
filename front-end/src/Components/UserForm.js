@@ -111,13 +111,11 @@ const FormikUserForm = withFormik({
       setSubmitting(false);
     }, 2000);
 
-    axiosWithAuth()
-      
-      axios
-        .post(
-          "https://weightliftingjournal-buildweek.herokuapp.com/api/auth/register",
-          values
-        )
+    axios
+      .post(
+        "https://weightliftingjournal-buildweek.herokuapp.com/api/auth/register",
+        values
+      )
       .then(res => {
         // console.log("Success", res);
         setStatus(res.data);
