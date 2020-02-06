@@ -15,7 +15,7 @@ const NavBar = props => (
       <div className="navbar-navigation-items">
         <ul>
           <li>
-            <a href="/">My Exercises</a>
+            <a href="/">Work Outs</a>
           </li>
           <li>
             <Link to="/protected/add_workout">
