@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
-const UserForm = ({ values, errors, touched, isSubmitting }) => {
+const UserForm = ({ values, errors, touched, isSubmitting, props }) => {
+  // Added for routing after signup
+  // const [username] = useState({
+  //   username: ''
+  // })
+  // const [password] = useState({
+  //   username: ''
+  // })
+
+  //   const signUpButton = () => {
+  //     if (username.username !== "" && password.password !== "") {
+  //       setTimeout(() => {
+  //         props.history.push("/login");
+  //       }, 400);
+  //     }
+  //   };
   return (
     <div>
       <Form>
-        <label htmlFor="email">
-          Email:
+        <label htmlFor="userName">
+          User:
           <div>
-            {touched.email && errors.email && <p>{errors.email}</p>}
-            <Field id="email" type="email" name="email" placeholder="Email:" />
+            {touched.userName && errors.userName && <p>{errors.userName}</p>}
+            <Field
+              id="userName"
+              type="userName"
+              name="userName"
+              placeholder="userName:"
+            />
           </div>
         </label>
         <label htmlFor="password">
@@ -24,30 +45,29 @@ const UserForm = ({ values, errors, touched, isSubmitting }) => {
             />
           </div>
         </label>
-        <button disabled={isSubmitting}>Sign In</button>
+        <button disabled={isSubmitting}>Register</button>
       </Form>
     </div>
   );
 };
+
 const FormikUserForm = withFormik({
-  mapPropsToValues({ email, password }) {
+  mapPropsToValues({ userName, password }) {
     return {
-      email: email || "",
+      userName: userName || "",
       password: password || ""
     };
   },
   validationSchema: Yup.object().shape({
-    email: Yup.string()
-      .email("Email not valid")
-      .required("Email is required"),
+    userName: Yup.string().required("User name is required"),
     password: Yup.string()
       .min(7, "Password must be 7 Characters")
       .required("Pasword is required")
   }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
     setTimeout(() => {
-      if (values.email === "adeeboom311082@gmail.com") {
-        setErrors({ email: "That email is already taken" });
+      if (values.userName === "Gringo") {
+        setErrors({ userName: "That user is already taken" });
       } else {
         resetForm();
       }

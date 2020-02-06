@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 // import anime from './anime-master/lib/anime.es.js';
+
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -20,12 +22,19 @@ import{
 import styled from "styled-components";
 
 
+import NavBar from "./NavBar";
+
+import SideDrawer from "./SideDrawer/SideDrawer";
+import BackDrop from "./BackDrop/BackDrop";
+
 //Select button with query selector then use animejs library to add animation
-// var elements = document.querySelectorAll('button');
+
+// var elements = document.querySelectorAll("button");
 // anime({
 //   targets: elements,
 //   translateX: 270
 // });
+
 const cardStyle={
   margin: "auto",
   padding: "25px",
@@ -39,6 +48,7 @@ const containerStyle={
   margin: "auto",
   width: "1300px",
 };
+
 const WorkoutForm = ({ values, errors, touched, status }) => {
 const [workout, setWorkout] = useState([{}]);
   useEffect(() => {
@@ -103,32 +113,39 @@ const [workout, setWorkout] = useState([{}]);
         </div>
     )
 };
-const FormikWorkoutForm = withFormik({
-    mapPropsToValues({name, muscle, sets, reps, notes }) {
-      return {
-        name: name || "",
-        muscle: muscle || "",
-        sets: sets || "",
-        reps: reps || "",
-        notes: notes || "" 
-      };
-    },
-    validationSchema: Yup.object().shape({
-        name: Yup.string().required("Name is required!"),
-        sets: Yup.string().required("Number of sets is required!"),
-        reps: Yup.string().required("Number of reps is required!"),
-      }),
 
-      handleSubmit(values, {setStatus, resetForm}) {
-        console.log("submitting", values);
-        axios
-        .post("https://reqres.in/api/users/", values)
-          .then(res => {
-            console.log("success", res);
-            setStatus(res.data)
-            resetForm();
-          })
-          .catch(err => console.log(err.response));
-      }
+const FormikWorkoutForm = withFormik({
+  mapPropsToValues({ name, muscle, sets, reps, notes }) {
+    return {
+      name: name || "",
+      muscle: muscle || "",
+      sets: sets || "",
+      reps: reps || "",
+      notes: notes || ""
+    };
+  },
+  validationSchema: Yup.object().shape({
+    workoutName: Yup.string().required("Name is required!"),
+    muscle: Yup.string().required(),
+    sets: Yup.string().required(),
+    reps: Yup.string().required()
+  }),
+
+  handleSubmit(values, { setStatus, resetForm }) {
+    console.log("submitting", values);
+
+    axios
+      .post("https://reqres.in/api/users/", values)
+      .then(res => {
+        console.log("success", res);
+        setStatus(res.data);
+        resetForm();
+      })
+      .catch(err => console.log(err.response));
+  }
 })(WorkoutForm);
+
+const mapStateToProps = state => {
+  return {};
+};
 export default FormikWorkoutForm;
