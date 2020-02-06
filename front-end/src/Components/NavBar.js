@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react";
+import { Link } from "react-router-dom";
 
 import DrawerToggleButton from "../Components/SideDrawer/DrawerToggleButton";
 import "./NavBar.css";
@@ -7,9 +7,7 @@ import "./NavBar.css";
 const NavBar = props => (
   <header className="navbar">
     <nav className="navbar-navigation">
-      <div>
-        <DrawerToggleButton />
-      </div>
+      <div>{/* <DrawerToggleButton /> */}</div>
       <div className="navbar-logo">
         <a href="/">WEIGHT LIFTING JOURNAL</a>
       </div>
@@ -17,10 +15,12 @@ const NavBar = props => (
       <div className="navbar-navigation-items">
         <ul>
           <li>
-            <a href="/">My Exercises</a>
+            <a href="/">Work Outs</a>
           </li>
           <li>
-            <a href="/">Add Exercise</a>
+            <Link to="/protected/add_workout">
+              <p>Add Exercise</p>
+            </Link>
           </li>
           <li>
             <a href="/">Logout</a>

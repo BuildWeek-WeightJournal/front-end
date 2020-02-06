@@ -1,58 +1,127 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Route, Link } from "react-router-dom";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
-const UserForm = ({ values, errors, touched, isSubmitting }) => {
+import styled from "styled-components";
+import axios from "axios";
+
+const HeaderTwo = styled.h2`
+  float: left;
+  height: 100%vh;
+`;
+
+const StyledForm = styled(Form)`
+  padding: 2rem;
+  width: 30%;
+  margin: 0 auto;
+  background: #fff;
+  height: 70vh;
+`;
+
+const Input = styled(Field)`
+  margin: 1.5rem auto;
+  padding: 1rem;
+  border: none;
+  width: 10rem;
+  border-bottom: 2px solid #00a35e;
+  border-radius: 0px;
+  background: #fff;
+`;
+
+const Button = styled.button`
+  margin: 1.5rem auto;
+  border-radius: 3px solid;
+  padding: 15px;
+  width: 12rem;
+  background: green;
+  color: whitesmoke;
+  font-size: 1.5rem;
+  cursor: pointer;
+`;
+const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: whitesmoke;
+`;
+
+const UserForm = ({ values, errors, touched, isSubmitting, status }) => {
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    // console.log("status has changed", status);
+    status && setUsers(users => [...users, status]);
+  }, [status]);
   return (
     <div>
-      <Form>
-        <label htmlFor="email">
-          Email:
-          <div>
-            {touched.email && errors.email && <p>{errors.email}</p>}
-            <Field id="email" type="email" name="email" placeholder="Email:" />
-          </div>
-        </label>
+      <HeaderTwo>WEIGHT-LIFTING-JOURNAL</HeaderTwo>
+      <StyledForm className="parent">
+        <div>
+          <label className="for-label" htmlFor="userName">
+            <h1>Register</h1>
+          </label>
+          {touched.userName && errors.userName && <p>{errors.userName}</p>}
+          <Input
+            id="userName"
+            type="userName"
+            name="userName"
+            placeholder="User-Name"
+          />
+        </div>
+
         <label htmlFor="password">
-          Password:
           <div>
             {touched.password && errors.password && <p>{errors.password}</p>}
-            <Field
+            <Input
               id="password"
               type="password"
               name="password"
-              placeholder="Password:"
+              placeholder="Password"
             />
           </div>
         </label>
-        <button disabled={isSubmitting}>Sign In</button>
-      </Form>
+        <Button disabled={isSubmitting}>Register</Button>
+        <Button>
+          <StyledLink to="/login">Go Back Home</StyledLink>
+        </Button>
+      </StyledForm>
     </div>
   );
 };
+
 const FormikUserForm = withFormik({
-  mapPropsToValues({ email, password }) {
+  mapPropsToValues({ userName, password }) {
     return {
-      email: email || "",
+      userName: userName || "",
       password: password || ""
     };
   },
   validationSchema: Yup.object().shape({
-    email: Yup.string()
-      .email("Email not valid")
-      .required("Email is required"),
+    userName: Yup.string().required("User name is required"),
     password: Yup.string()
       .min(7, "Password must be 7 Characters")
       .required("Pasword is required")
   }),
-  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
+  handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
     setTimeout(() => {
-      if (values.email === "adeeboom311082@gmail.com") {
-        setErrors({ email: "That email is already taken" });
+      if (values.userName === values.userName) {
+        setErrors({ userName: "That user is already taken" });
       } else {
         resetForm();
       }
       setSubmitting(false);
     }, 2000);
+    axios
+      .post(
+        "https://weightliftingjournal-buildweek.herokuapp.com/api/users/",
+        values
+      )
+      .then(res => {
+        // console.log("Success", res);
+        setStatus(res.data);
+        resetForm();
+      })
+      .catch(err => {
+        // console.log("The post requested: ", err.response);
+      });
+
     console.log(values);
   }
 })(UserForm);

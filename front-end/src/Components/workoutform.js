@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+
 // import anime from './anime-master/lib/anime.es.js';
+
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -19,12 +21,19 @@ import{
 import styled from "styled-components";
 
 
+import NavBar from "./NavBar";
+
+import SideDrawer from "./SideDrawer/SideDrawer";
+import BackDrop from "./BackDrop/BackDrop";
+
 //Select button with query selector then use animejs library to add animation
-// var elements = document.querySelectorAll('button');
+
+// var elements = document.querySelectorAll("button");
 // anime({
 //   targets: elements,
 //   translateX: 270
 // });
+
 const cardStyle={
   margin: "auto",
   padding: "25px",
@@ -38,6 +47,7 @@ const containerStyle={
   margin: "auto",
   width: "1300px",
 };
+
 const WorkoutForm = ({ values, errors, touched, status }) => {
 const [workout, setWorkout] = useState([{}]);
   useEffect(() => {
@@ -100,6 +110,7 @@ const [workout, setWorkout] = useState([{}]);
         </div>
     )
 };
+
 const FormikWorkoutForm = withFormik({
     mapPropsToValues({name, body_region, weight, reps}) {
       return {
@@ -126,5 +137,10 @@ const FormikWorkoutForm = withFormik({
           })
           .catch(err => console.log(err.response));
       }
+
 })(WorkoutForm);
+
+const mapStateToProps = state => {
+  return {};
+};
 export default FormikWorkoutForm;
