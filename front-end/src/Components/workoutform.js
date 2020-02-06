@@ -12,7 +12,6 @@ import {
   Card,
   CardTitle,
   CardSubtitle,
-  CardText
 } from "reactstrap";
 import{
   InputForm,
@@ -66,7 +65,7 @@ const [workout, setWorkout] = useState([{}]);
             <p className="errors"> {errors.name} </p>
           )}
                 </label>
-                <InputField className="muscle" as="select" name="muscle">
+                <InputField className="body_region" as="select" name="body_region">
                     <option>Choose a muscle group</option>
                     <option value="Chest">Chest</option>
                     <option value="Biceps">Biceps</option>
@@ -79,19 +78,18 @@ const [workout, setWorkout] = useState([{}]);
                     <option value="Thighs">Thighs</option>
                     <option value="Calves">Calves</option>
                 </InputField>
-                <label htmlFor="sets">
-                <Field id ="sets" type="text" name="sets" placeholder="sets"/>
-                {touched.sets && errors.sets && (
-            <p className="errors"> {errors.sets} </p>
+                <label htmlFor="weight">
+                <Field id ="weight" type="number" name="weight" placeholder="weight"/>
+                {touched.weight && errors.weight && (
+            <p className="errors"> {errors.weight} </p>
           )}
                 </label>
                 <label htmlFor="reps">
-                <InputField id ="reps" type="text" name="reps" placeholder="reps"/>
+                <InputField id ="reps" type="number" name="reps" placeholder="reps"/>
                 {touched.reps && errors.reps && (
             <p className="errors"> {errors.reps} </p>
           )}
                 </label>
-                <Field as="textarea" type="text" name="notes" placeholder="Notes" />
                 <Button type="submit">Add Workout</Button>
             </InputForm>
     <Container>
@@ -100,10 +98,9 @@ const [workout, setWorkout] = useState([{}]);
   {workout.map(props => (
       <Card style={cardStyle} key={props.id}>
         <CardTitle>Name: {props.name}</CardTitle>
-        <CardSubtitle>Muscle: {props.muscle}</CardSubtitle>
-        <CardSubtitle>Sets: {props.sets}</CardSubtitle>
+        <CardSubtitle>Body Region: {props.body_region}</CardSubtitle>
+        <CardSubtitle>Weight: {props.weight}</CardSubtitle>
         <CardSubtitle>Reps: {props.reps}</CardSubtitle>
-        <CardText >Notes: {props.notes}</CardText>
         <button> Edit Workout</button>
 	   </Card>
 	))}
@@ -115,34 +112,32 @@ const [workout, setWorkout] = useState([{}]);
 };
 
 const FormikWorkoutForm = withFormik({
-  mapPropsToValues({ name, muscle, sets, reps, notes }) {
-    return {
-      name: name || "",
-      muscle: muscle || "",
-      sets: sets || "",
-      reps: reps || "",
-      notes: notes || ""
-    };
-  },
-  validationSchema: Yup.object().shape({
-    workoutName: Yup.string().required("Name is required!"),
-    muscle: Yup.string().required(),
-    sets: Yup.string().required(),
-    reps: Yup.string().required()
-  }),
+    mapPropsToValues({name, body_region, weight, reps}) {
+      return {
+        name: name || "",
+        body_region: body_region || "",
+        weight: weight || "",
+        reps: reps || "",
+      };
+    },
+    validationSchema: Yup.object().shape({
+        name: Yup.string().required("Name is required!"),
+        weight: Yup.number().required("Weight is required!").positive().integer(),
+        reps: Yup.number().required("Number of reps is required!").positive().integer(),
+      }),
 
-  handleSubmit(values, { setStatus, resetForm }) {
-    console.log("submitting", values);
+      handleSubmit(values, {setStatus, resetForm}) {
+        console.log("submitting", values);
+        axios
+        .post("https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId", values)
+          .then(res => {
+            console.log("success", res);
+            setStatus(res.data)
+            resetForm();
+          })
+          .catch(err => console.log(err.response));
+      }
 
-    axios
-      .post("https://reqres.in/api/users/", values)
-      .then(res => {
-        console.log("success", res);
-        setStatus(res.data);
-        resetForm();
-      })
-      .catch(err => console.log(err.response));
-  }
 })(WorkoutForm);
 
 const mapStateToProps = state => {
