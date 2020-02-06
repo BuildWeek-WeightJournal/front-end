@@ -15,7 +15,9 @@ const NavBar = props => (
       <div className="navbar-navigation-items">
         <ul>
           <li>
-            <a href="/">Work Outs</a>
+            <Link to="/protected/my_workouts">
+            <p>Work Outs</p>
+            </Link>
           </li>
           <li>
             <Link to="/protected/add_workout">
@@ -23,7 +25,9 @@ const NavBar = props => (
             </Link>
           </li>
           <li>
-            <a href="/">Logout</a>
+          <Link to="/login">
+            <p>Log Out</p>
+            </Link>
           </li>
         </ul>
       </div>

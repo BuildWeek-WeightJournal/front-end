@@ -41,7 +41,46 @@ import React, { useState, useEffect } from "react";
 //         console.log(res);
 //       });
 //   };
-// =======
+
+//{workouts.map(workoutList => {
+
+//           return (
+//             <div key={workoutList.id}>
+//               <CardDeck className="wrapper">
+//                 <Card className="card-wrapper" key={workouts.id}>
+//                   <CardBody className="card-body">
+//                     {/* <CardTitle>Date: {exerciseList.date}</CardTitle> */}
+//                     <CardTitle>Exercise: workoutList.workoutName}</CardTitle>
+//                     <CardTitle>Weight: {workoutList.weight}</CardTitle>
+//                     <CardSubtitle>Sets: {workoutList.sets}</CardSubtitle>
+//                     <CardSubtitle>Reps: {workoutList.reps}</CardSubtitle>
+//                     <CardSubtitle>
+//                       Journal Entry: {workoutList.notes}
+//                     </CardSubtitle>
+//                     <br />
+//                     <Button
+//                       onClick={() =>
+//                         props.history.push(`/update_workout/${workoutList.id}`)
+//                       }
+//                     >
+//                       Edit
+//                     </Button>
+//                     <br />
+//                     <Button onClick={() => handleDelete(workoutList.id)}>
+//                       Delete
+//                     </Button>
+
+//                   </CardBody>
+//                 </Card>
+//               </CardDeck>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     );
+//   };
+
+//   export default Workouts;
 
 //components
 import NavBar from "./NavBar";
@@ -83,45 +122,7 @@ const Workouts = props => {
     <div>
       <NavBar />
       <h1>My Workouts</h1>
-// <<<<<<< New-Robert-Stepanov
-//       {workouts.map(workoutList => {
-//         return (
-//           <div key={workoutList.id}>
-//             <CardDeck className="wrapper">
-//               <Card className="card-wrapper" key={workouts.id}>
-//                 <CardBody className="card-body">
-//                   {/* <CardTitle>Date: {exerciseList.date}</CardTitle> */}
-//                   <CardTitle>Exercise: workoutList.workoutName}</CardTitle>
-//                   <CardTitle>Weight: {workoutList.weight}</CardTitle>
-//                   <CardSubtitle>Sets: {workoutList.sets}</CardSubtitle>
-//                   <CardSubtitle>Reps: {workoutList.reps}</CardSubtitle>
-//                   <CardSubtitle>
-//                     Journal Entry: {workoutList.notes}
-//                   </CardSubtitle>
-//                   <br />
-//                   <Button
-//                     onClick={() =>
-//                       props.history.push(`/update_workout/${workoutList.id}`)
-//                     }
-//                   >
-//                     Edit
-//                   </Button>
-//                   <br />
-//                   <Button onClick={() => handleDelete(workoutList.id)}>
-//                     Delete
-//                   </Button>
-                  
-//                 </CardBody>
-//               </Card>
-//             </CardDeck>
-//           </div>
-//         );
-//       })}
-//     </div>
-//   );
-// };
 
-// export default Workouts;
       <Container>
         <Row>
           <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
@@ -151,3 +152,43 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
   Workouts
 );
+
+// {workouts.map(workoutList => {
+
+//           return (
+//             <div key={workoutList.id}>
+//               <CardDeck className="wrapper">
+//                 <Card className="card-wrapper" key={workouts.id}>
+//                   <CardBody className="card-body">
+//                     {/* <CardTitle>Date: {exerciseList.date}</CardTitle> */}
+//                     <CardTitle>Exercise: workoutList.workoutName}</CardTitle>
+//                     <CardTitle>Weight: {workoutList.weight}</CardTitle>
+//                     <CardSubtitle>Sets: {workoutList.sets}</CardSubtitle>
+//                     <CardSubtitle>Reps: {workoutList.reps}</CardSubtitle>
+//                     <CardSubtitle>
+//                       Journal Entry: {workoutList.notes}
+//                     </CardSubtitle>
+//                     <br />
+//                     <Button
+//                       onClick={() =>
+//                         props.history.push(`/update_workout/${workoutList.id}`)
+//                       }
+//                     >
+//                       Edit
+//                     </Button>
+//                     <br />
+//                     <Button onClick={() => handleDelete(workoutList.id)}>
+//                       Delete
+//                     </Button>
+
+//                   </CardBody>
+//                 </Card>
+//               </CardDeck>
+//             </div>
+//           );
+//         })}
+//       </div>
+//     );
+//   };
+
+//   export default Workouts;
