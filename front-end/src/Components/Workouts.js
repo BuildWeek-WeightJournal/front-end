@@ -55,6 +55,12 @@ const Workouts = props => {
 
   const userId = localStorage.getItem("userId");
 
+  // const handleDelete = id => {
+  //   axiosWithAuth().delete(
+  //     `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
+  //   );
+  // };
+
   console.log(localStorage);
   useEffect(() => {
     axiosWithAuth()
@@ -81,7 +87,14 @@ const Workouts = props => {
                 <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
                 <CardSubtitle>Weight: {data.weight}</CardSubtitle>
                 <CardSubtitle>Reps: {data.reps}</CardSubtitle>
-                <button> Edit Workout</button>
+                <button
+                  onClick={() =>
+                    props.history.push(`/update_workout/${data.id}`)
+                  }
+                >
+                  Edit
+                </button>
+                <button>Delete</button>
               </Card>
             ))}
           </Col>
@@ -133,13 +146,7 @@ export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
 //                     Journal Entry: {workoutList.notes}
 //                   </CardSubtitle>
 //                   <br />
-//                   <Button
-//                     onClick={() =>
-//                       props.history.push(`/update_workout/${workoutList.id}`)
-//                     }
-//                   >
-//                     Edit
-//                   </Button>
+                  
 //                   <br />
 //                   <Button onClick={() => handleDelete(workoutList.id)}>
 //                     Delete

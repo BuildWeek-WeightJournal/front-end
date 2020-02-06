@@ -64,7 +64,7 @@ export const editWorkout = (id, workoutValues) => dispatch => {
   dispatch({ type: EDIT_WORKOUT_START });
   axios
     .put(
-      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId`,
+      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`,
       workoutValues
     )
     .then(res => {
