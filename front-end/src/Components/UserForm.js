@@ -80,7 +80,7 @@ const UserForm = ({ values, errors, touched, isSubmitting, status, props }) => {
           </div>
         </label>
         <Button disabled={isSubmitting}>Register</Button>
-        <Button>
+        <Button disabled={isSubmitting}>
           <StyledLink to="/login">Go Back Home</StyledLink>
         </Button>
       </StyledForm>
@@ -102,22 +102,19 @@ const FormikUserForm = withFormik({
       .required("Pasword is required")
   }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
-    setTimeout(() => {
-      if (values.userName === values.userName) {
-        setErrors({ userName: "That user is already taken" });
-      } else {
-        resetForm();
-      }
-      setSubmitting(false);
-    }, 2000);
-
-    axiosWithAuth()
-      
-      axios
-        .post(
-          "https://weightliftingjournal-buildweek.herokuapp.com/api/auth/register",
-          values
-        )
+      setTimeout(() => {
+        if (values.userName === values.users) {
+          setErrors({ userName: "That user is already taken" });
+        } else {
+          resetForm();
+        }
+        setSubmitting(false);
+      }, 2000);
+      console.log(values);
+    
+    
+    axios
+      .post("https://weightliftingjournal-buildweek.herokuapp.com/api/auth/register", values)
       .then(res => {
         // console.log("Success", res);
         setStatus(res.data);
@@ -127,8 +124,6 @@ const FormikUserForm = withFormik({
       .catch(err => {
         // console.log("The post requested: ", err.response);
       });
-
-    console.log(values);
   }
 })(UserForm);
 export default FormikUserForm;
