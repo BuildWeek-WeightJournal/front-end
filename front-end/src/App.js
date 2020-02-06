@@ -7,6 +7,7 @@ import SideDrawer from "./Components/SideDrawer/SideDrawer";
 import BackDrop from "./Components/BackDrop/BackDrop";
 import WorkoutForm from "./Components/workoutform";
 import NavBar from "./Components/NavBar";
+import Workouts from "./Components/Workouts";
 
 import "./App.css";
 import SignUp from "./Components/SignUp";
@@ -18,7 +19,7 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-        {/* <Private exact path="/protected/my_workouts" component={Workouts} /> */}
+          <Private exact path="/protected/my_workouts" component={Workouts} />
           <Private path="/protected/add_workout" component={WorkoutForm} />
           <Route
             path="/update_workout/:id"

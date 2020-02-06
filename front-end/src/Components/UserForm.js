@@ -1,14 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
-
-const UserForm = ({ values, errors, touched, isSubmitting }) => {
+const UserForm = ({ values, errors, touched, isSubmitting, props }) => {
   // Added for routing after signup
   // const [username] = useState({
   //   username: ''
   // })
-
   // const [password] = useState({
   //   username: ''
   // })

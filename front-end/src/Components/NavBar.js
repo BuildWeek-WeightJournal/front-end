@@ -7,9 +7,7 @@ import "./NavBar.css";
 const NavBar = props => (
   <header className="navbar">
     <nav className="navbar-navigation">
-      <div>
-        <DrawerToggleButton />
-      </div>
+      <div>{/* <DrawerToggleButton /> */}</div>
       <div className="navbar-logo">
         <a href="/">WEIGHT LIFTING JOURNAL</a>
       </div>

@@ -40,7 +40,7 @@ const Login = props => {
       .then(res => {
         console.log(res.data);
         localStorage.setItem("token", res.data);
-        props.history.push("/protected/workout");
+        props.history.push("/protected/my_workouts");
       })
 
       .catch(err => console.log(err));
