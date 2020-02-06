@@ -68,6 +68,10 @@ input {
   border-radius: 5px;
   height: 20px;
 }
+.card{
+  border-radius: 10px;
+  min-width: 300px;
+}
 
 .input {
   margin: 1rem auto;
@@ -91,4 +95,14 @@ input {
 
 .content-wrapper {
   margin-top: 10%;
+}
+
+.workout-form {
+  margin-top: 10%;
+}
+
+/* Workout Form Stylings */
+.workout-form{
+display: flex;
+flex-flow: column nowrap
 }
