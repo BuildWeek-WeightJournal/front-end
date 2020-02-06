@@ -5,15 +5,7 @@ import { useParams } from "react-router-dom";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  CardTitle,
-  CardSubtitle,
-  CardText
-} from "reactstrap";
+import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
 import { InputForm, InputField, Button } from "./styles";
 import styled from "styled-components";
 
@@ -61,7 +53,7 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
             <p className="errors"> {errors.name} </p>
           )}
         </label>
-        <InputField className="muscle" as="select" name="muscle">
+        <InputField className="body_region" as="select" name="body_region">
           <option>Choose a muscle group</option>
           <option value="Chest">Chest</option>
           <option value="Biceps">Biceps</option>
@@ -74,19 +66,18 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
           <option value="Thighs">Thighs</option>
           <option value="Calves">Calves</option>
         </InputField>
-        <label htmlFor="sets">
-          <Field id="sets" type="text" name="sets" placeholder="sets" />
-          {touched.sets && errors.sets && (
-            <p className="errors"> {errors.sets} </p>
+        <label htmlFor="weight">
+          <Field id="weight" type="number" name="weight" placeholder="weight" />
+          {touched.weight && errors.weight && (
+            <p className="errors"> {errors.weight} </p>
           )}
         </label>
         <label htmlFor="reps">
-          <InputField id="reps" type="text" name="reps" placeholder="reps" />
+          <InputField id="reps" type="number" name="reps" placeholder="reps" />
           {touched.reps && errors.reps && (
             <p className="errors"> {errors.reps} </p>
           )}
         </label>
-        <Field as="textarea" type="text" name="notes" placeholder="Notes" />
         <Button type="submit">Add Workout</Button>
       </InputForm>
       <Container>
@@ -95,10 +86,9 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
             {workout.map(props => (
               <Card style={cardStyle} key={props.id}>
                 <CardTitle>Name: {props.name}</CardTitle>
-                <CardSubtitle>Muscle: {props.muscle}</CardSubtitle>
-                <CardSubtitle>Sets: {props.sets}</CardSubtitle>
+                <CardSubtitle>Body Region: {props.body_region}</CardSubtitle>
+                <CardSubtitle>Weight: {props.weight}</CardSubtitle>
                 <CardSubtitle>Reps: {props.reps}</CardSubtitle>
-                <CardText>Notes: {props.notes}</CardText>
                 <button> Edit Workout</button>
               </Card>
             ))}
@@ -110,28 +100,31 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
 };
 
 const FormikWorkoutForm = withFormik({
-  mapPropsToValues({ name, muscle, sets, reps, notes }) {
+  mapPropsToValues({ name, body_region, weight, reps }) {
     return {
       name: name || "",
-      muscle: muscle || "",
-      sets: sets || "",
-      reps: reps || "",
-      notes: notes || ""
+      body_region: body_region || "",
+      weight: weight || "",
+      reps: reps || ""
     };
   },
   validationSchema: Yup.object().shape({
-    workoutName: Yup.string().required("Name is required!"),
-    muscle: Yup.string().required(),
-    sets: Yup.string().required(),
-    reps: Yup.string().required()
+    name: Yup.string().required("Name is required!"),
+    weight: Yup.number()
+      .required("Weight is required!")
+      .positive()
+      .integer(),
+    reps: Yup.number()
+      .required("Number of reps is required!")
+      .positive()
+      .integer()
   }),
 
   handleSubmit(values, { setStatus, resetForm }) {
     console.log("submitting", values);
-
     axios
       .post(
-        `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:id`,
+        "https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId",
         values
       )
       .then(res => {
