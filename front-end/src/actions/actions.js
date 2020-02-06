@@ -1,4 +1,3 @@
-import { axiosWithAuth } from "../Components/utils/axiosWithAuth";
 import axios from "axios";
 
 export const POST_WORKOUT_START = "POST_WORKOUT_START";
@@ -25,15 +24,6 @@ export const postWorkout = workoutValues => dispatch => {
 export const FETCH_WORKOUT_START = "FETCH_WORKOUT_START";
 export const FETCH_WORKOUT_SUCCESS = "FETCH_WORKOUT_START";
 export const FETCH_WORKOUT_FAILURE = "FETCH_WORKOUT_FAILURE";
-
-export const fetchWorkouts = id => dispatch => {
-  dispatch({ type: FETCH_WORKOUT_START });
-
-  axiosWithAuth()
-    .get(`/api/workouts/${id}`)
-    .then(res => dispatch({ type: FETCH_WORKOUT_SUCCESS, payload: res.data }))
-    .catch(err => dispatch({ type: FETCH_WORKOUT_FAILURE, payload: err }));
-};
 
 export const DELETE_WORKOUT_START = "DELETE_WORKOUT_START";
 export const DELETE_WORKOUT_SUCCESS = " DELETE_WORKOUT_SUCCESS";

@@ -38,10 +38,8 @@ const Login = props => {
       .post("/api/auth/login", mergedObjects)
 
       .then(res => {
-        console.log(res);
+        console.log(res.data);
         localStorage.setItem("token", res.data);
-        localStorage.setItem("userId", res.data.id);
-        localStorage.setItem("username", res.data.username);
         props.history.push("/protected/my_workouts");
       })
 

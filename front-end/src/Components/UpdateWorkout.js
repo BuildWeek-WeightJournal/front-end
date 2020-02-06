@@ -3,7 +3,6 @@ import NavBar from "./NavBar";
 import axios from "axios";
 import { editWorkout } from "../actions/actions";
 import { connect } from "react-redux";
-
 const UpdateWorkout = props => {
   const [workout, setWorkout] = useState({
     workoutName: "",
@@ -108,10 +107,7 @@ const UpdateWorkout = props => {
 };
 
 const mapStateToProps = state => {
-  return {
-    exerciseList: state.exerciseList,
-    isFetching: state.isFetching
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, { editWorkout })(UpdateWorkout);
