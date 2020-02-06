@@ -25,10 +25,12 @@ const containerStyle = {
 const Workouts = props => {
   const [workouts, setWorkouts] = useState([]);
 
+  const userId = localStorage.getItem("userId");
+
   console.log(localStorage);
   useEffect(() => {
     if (props.exerciseList === 0) {
-      props.fetchWorkouts();
+      props.fetchWorkouts(userId);
     }
     setWorkouts(props.exerciseList);
     console.log(props.exerciseList);
@@ -38,7 +40,7 @@ const Workouts = props => {
     <div>
       <NavBar />
       <h1>My Workouts</h1>
-      {/* <Container>
+      <Container>
         <Row>
           <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
             {workouts.map(data => (
@@ -52,7 +54,7 @@ const Workouts = props => {
             ))}
           </Col>
         </Row>
-      </Container> */}
+      </Container>
     </div>
   );
 };

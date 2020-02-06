@@ -124,7 +124,7 @@ const FormikWorkoutForm = withFormik({
     console.log("submitting", values);
     axios
       .post(
-        "https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId",
+        "https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/",
         values
       )
       .then(res => {
