@@ -70,7 +70,10 @@ export const reducer = (state = newWorkoutState, action) => {
     case DELETE_WORKOUT_SUCCESS:
       return {
         ...state,
-        isDeleting: false
+        isDeleting: false,
+        exerciseList: state.exerciseList.filter(item => {
+          return item.id !== action.payload;
+        })
       };
 
     case DELETE_WORKOUT_ERROR:

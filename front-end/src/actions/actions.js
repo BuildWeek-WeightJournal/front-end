@@ -39,16 +39,15 @@ export const DELETE_WORKOUT_START = "DELETE_WORKOUT_START";
 export const DELETE_WORKOUT_SUCCESS = " DELETE_WORKOUT_SUCCESS";
 export const DELETE_WORKOUT_ERROR = "DELETE_WORKOUT_ERROR";
 
-export const deleteWorkout = (id, props) => dispatch => {
+export const deleteWorkout = id => dispatch => {
   dispatch({ type: DELETE_WORKOUT_START });
   axios
     .delete(
-      "https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:workoutId"
+      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
     )
     .then(res => {
       console.log(res);
       dispatch({ type: DELETE_WORKOUT_SUCCESS, payload: id });
-      props.history.push("/protected/my_workouts");
     })
     .catch(err => {
       console.log(err);
@@ -64,7 +63,7 @@ export const editWorkout = (id, workoutValues) => dispatch => {
   dispatch({ type: EDIT_WORKOUT_START });
   axios
     .put(
-      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId`,
+      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`,
       workoutValues
     )
     .then(res => {

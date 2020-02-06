@@ -31,7 +31,7 @@ import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
 
 //from dependencies
-import { editWorkout, fetchWorkouts } from "../actions/actions";
+import { editWorkout, fetchWorkouts, deleteWorkout } from "../actions/actions";
 import { connect } from "react-redux";
 import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
@@ -54,6 +54,13 @@ const Workouts = props => {
   const [workouts, setWorkouts] = useState([]);
 
   const userId = localStorage.getItem("userId");
+
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    axiosWithAuth().delete(
+      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
+    );
+  };
 
   console.log(localStorage);
   useEffect(() => {
@@ -81,7 +88,14 @@ const Workouts = props => {
                 <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
                 <CardSubtitle>Weight: {data.weight}</CardSubtitle>
                 <CardSubtitle>Reps: {data.reps}</CardSubtitle>
-                <button> Edit Workout</button>
+                <button
+                  onClick={() =>
+                    props.history.push(`/update_workout/${data.id}`)
+                  }
+                >
+                  Edit
+                </button>
+                <button onClick={() => deleteWorkout(data.id)}>Delete</button>
               </Card>
             ))}
           </Col>
@@ -94,13 +108,16 @@ const Workouts = props => {
 const mapStateToProps = state => {
   return {
     exerciseList: state.exerciseList,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    isDeleting: state.isDeleting
   };
 };
 
-export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
-  Workouts
-);
+export default connect(mapStateToProps, {
+  editWorkout,
+  fetchWorkouts,
+  deleteWorkout
+})(Workouts);
 
 //   useEffect(() => {
 //     const id = '';
@@ -133,13 +150,7 @@ export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
 //                     Journal Entry: {workoutList.notes}
 //                   </CardSubtitle>
 //                   <br />
-//                   <Button
-//                     onClick={() =>
-//                       props.history.push(`/update_workout/${workoutList.id}`)
-//                     }
-//                   >
-//                     Edit
-//                   </Button>
+                  
 //                   <br />
 //                   <Button onClick={() => handleDelete(workoutList.id)}>
 //                     Delete
