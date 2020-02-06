@@ -3,6 +3,22 @@ import React, { useState, useEffect } from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardTitle,
+  CardSubtitle,
+  CardText
+} from "reactstrap";
+import{
+  InputForm,
+  InputField,
+  Button,
+} from "./styles";
+import styled from "styled-components";
+
 
 //Select button with query selector then use animejs library to add animation
 // var elements = document.querySelectorAll('button');
@@ -10,7 +26,19 @@ import axios from "axios";
 //   targets: elements,
 //   translateX: 270
 // });
-
+const cardStyle={
+  margin: "auto",
+  padding: "25px",
+  width: "300px",
+  border: " 1px solid #00a35e",
+  borderradius: "1px",
+};
+const containerStyle={
+  display: "flex",
+  flexdirection: "row",
+  margin: "auto",
+  width: "1300px",
+};
 const WorkoutForm = ({ values, errors, touched, status }) => {
 const [workout, setWorkout] = useState([{}]);
   useEffect(() => {
@@ -20,7 +48,7 @@ const [workout, setWorkout] = useState([{}]);
 },[status]);
     return(
         <div className="workout-form">
-            <Form>
+            <InputForm>
                 <label htmlFor="name">
                     Please enter your a name for your workout:
                 <Field id ="name" type="text" name="name" placeholder="name"/>
@@ -28,7 +56,7 @@ const [workout, setWorkout] = useState([{}]);
             <p className="errors"> {errors.name} </p>
           )}
                 </label>
-                <Field className="muscle" as="select" name="muscle">
+                <InputField className="muscle" as="select" name="muscle">
                     <option>Choose a muscle group</option>
                     <option value="Chest">Chest</option>
                     <option value="Biceps">Biceps</option>
@@ -40,7 +68,7 @@ const [workout, setWorkout] = useState([{}]);
                     <option value="Gluteals">Gluteals</option>
                     <option value="Thighs">Thighs</option>
                     <option value="Calves">Calves</option>
-                </Field>
+                </InputField>
                 <label htmlFor="sets">
                 <Field id ="sets" type="text" name="sets" placeholder="sets"/>
                 {touched.sets && errors.sets && (
@@ -48,26 +76,30 @@ const [workout, setWorkout] = useState([{}]);
           )}
                 </label>
                 <label htmlFor="reps">
-                <Field id ="reps" type="text" name="reps" placeholder="reps"/>
+                <InputField id ="reps" type="text" name="reps" placeholder="reps"/>
                 {touched.reps && errors.reps && (
             <p className="errors"> {errors.reps} </p>
           )}
                 </label>
                 <Field as="textarea" type="text" name="notes" placeholder="Notes" />
-                <button type="submit">Add Workout</button>
-            </Form>
+                <Button type="submit">Add Workout</Button>
+            </InputForm>
+    <Container>
+    <Row>
+    <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}> 
   {workout.map(props => (
-	  <div>
-      <ul key={props.id}>
-        <h3>Name: {props.name}</h3>
-        <li>Muscle: {props.muscle}</li>
-        <li>Sets: {props.sets}</li>
-        <li>Reps: {props.reps}</li>
-        <li>Notes: {props.notes}</li>
+      <Card style={cardStyle} key={props.id}>
+        <CardTitle>Name: {props.name}</CardTitle>
+        <CardSubtitle>Muscle: {props.muscle}</CardSubtitle>
+        <CardSubtitle>Sets: {props.sets}</CardSubtitle>
+        <CardSubtitle>Reps: {props.reps}</CardSubtitle>
+        <CardText >Notes: {props.notes}</CardText>
         <button> Edit Workout</button>
-	   </ul>
-    </div>
+	   </Card>
 	))}
+    </Col>
+  </Row>
+  </Container>
         </div>
     )
 };

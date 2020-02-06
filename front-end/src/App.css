@@ -67,9 +67,19 @@ input {
   border-radius: 5px;
   height: 20px;
 }
+.card{
+  border-radius: 10px;
+  min-width: 300px;
+}
 
 label {
   color: #161d18;
   text-transform: uppercase;
   font-size: 1em;
+}
+
+/* Workout Form Stylings */
+.workout-form{
+display: flex;
+flex-flow: column nowrap
 }
