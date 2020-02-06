@@ -10,7 +10,6 @@ import {
   Card,
   CardTitle,
   CardSubtitle,
-  CardText
 } from "reactstrap";
 import{
   InputForm,
@@ -56,7 +55,7 @@ const [workout, setWorkout] = useState([{}]);
             <p className="errors"> {errors.name} </p>
           )}
                 </label>
-                <InputField className="muscle" as="select" name="muscle">
+                <InputField className="body_region" as="select" name="body_region">
                     <option>Choose a muscle group</option>
                     <option value="Chest">Chest</option>
                     <option value="Biceps">Biceps</option>
@@ -69,10 +68,10 @@ const [workout, setWorkout] = useState([{}]);
                     <option value="Thighs">Thighs</option>
                     <option value="Calves">Calves</option>
                 </InputField>
-                <label htmlFor="sets">
-                <Field id ="sets" type="text" name="sets" placeholder="sets"/>
-                {touched.sets && errors.sets && (
-            <p className="errors"> {errors.sets} </p>
+                <label htmlFor="weight">
+                <Field id ="weight" type="weight" name="weight" placeholder="weight"/>
+                {touched.weight && errors.weight && (
+            <p className="errors"> {errors.weight} </p>
           )}
                 </label>
                 <label htmlFor="reps">
@@ -81,7 +80,6 @@ const [workout, setWorkout] = useState([{}]);
             <p className="errors"> {errors.reps} </p>
           )}
                 </label>
-                <Field as="textarea" type="text" name="notes" placeholder="Notes" />
                 <Button type="submit">Add Workout</Button>
             </InputForm>
     <Container>
@@ -90,10 +88,9 @@ const [workout, setWorkout] = useState([{}]);
   {workout.map(props => (
       <Card style={cardStyle} key={props.id}>
         <CardTitle>Name: {props.name}</CardTitle>
-        <CardSubtitle>Muscle: {props.muscle}</CardSubtitle>
-        <CardSubtitle>Sets: {props.sets}</CardSubtitle>
+        <CardSubtitle>Body Region: {props.body_region}</CardSubtitle>
+        <CardSubtitle>Weight: {props.weight}</CardSubtitle>
         <CardSubtitle>Reps: {props.reps}</CardSubtitle>
-        <CardText >Notes: {props.notes}</CardText>
         <button> Edit Workout</button>
 	   </Card>
 	))}
@@ -104,25 +101,24 @@ const [workout, setWorkout] = useState([{}]);
     )
 };
 const FormikWorkoutForm = withFormik({
-    mapPropsToValues({name, muscle, sets, reps, notes }) {
+    mapPropsToValues({name, body_region, weight, reps}) {
       return {
         name: name || "",
-        muscle: muscle || "",
-        sets: sets || "",
+        body_region: body_region || "",
+        weight: weight || "",
         reps: reps || "",
-        notes: notes || "" 
       };
     },
     validationSchema: Yup.object().shape({
         name: Yup.string().required("Name is required!"),
-        sets: Yup.string().required("Number of sets is required!"),
+        weight: Yup.string().required("Weight is required!"),
         reps: Yup.string().required("Number of reps is required!"),
       }),
 
       handleSubmit(values, {setStatus, resetForm}) {
         console.log("submitting", values);
         axios
-        .post("https://reqres.in/api/users/", values)
+        .post("https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId", values)
           .then(res => {
             console.log("success", res);
             setStatus(res.data)
