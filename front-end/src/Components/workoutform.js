@@ -11,7 +11,6 @@ import NavBar from "./NavBar";
 import SideDrawer from "./SideDrawer/SideDrawer";
 import BackDrop from "./BackDrop/BackDrop";
 
-
 //Select button with query selector then use animejs library to add animation
 
 // var elements = document.querySelectorAll("button");
@@ -20,8 +19,9 @@ import BackDrop from "./BackDrop/BackDrop";
 //   translateX: 270
 // });
 
-const WorkoutForm = ({ values, errors, touched, status }) => {
+const WorkoutForm = ({ values, errors, touched, status, props }) => {
   const [workout, setWorkout] = useState([]);
+
   useEffect(() => {
     console.log("status has changed", status);
     status && setWorkout(workout => [...workout, status]);
@@ -33,7 +33,7 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
         {/* <SideDrawer />
         <BackDrop /> */}
       </div>
-     
+
       <Form className="workout-form">
         <label htmlFor="workoutName">
           Please enter your a name for your workout:
@@ -67,7 +67,13 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
             <p className="errors"> {errors.reps} </p>
           )}
         </label>
-        <Field className="input" as="textarea" type="text" name="notes" placeholder="Notes" />
+        <Field
+          className="input"
+          as="textarea"
+          type="text"
+          name="notes"
+          placeholder="Notes"
+        />
         <button type="submit">Add Workout</button>
       </Form>
       {workout.map(workout => (
@@ -81,6 +87,7 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
     </div>
   );
 };
+
 const FormikWorkoutForm = withFormik({
   mapPropsToValues({ name, muscle, sets, reps, notes }) {
     return {
@@ -100,6 +107,7 @@ const FormikWorkoutForm = withFormik({
 
   handleSubmit(values, { setStatus, resetForm }) {
     console.log("submitting", values);
+
     axios
       .post("https://reqres.in/api/users/", values)
       .then(res => {
@@ -110,4 +118,8 @@ const FormikWorkoutForm = withFormik({
       .catch(err => console.log(err.response));
   }
 })(WorkoutForm);
+
+const mapStateToProps = state => {
+  return {};
+};
 export default FormikWorkoutForm;
