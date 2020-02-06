@@ -79,13 +79,13 @@ const [workout, setWorkout] = useState([{}]);
                     <option value="Calves">Calves</option>
                 </InputField>
                 <label htmlFor="weight">
-                <Field id ="weight" type="weight" name="weight" placeholder="weight"/>
+                <Field id ="weight" type="number" name="weight" placeholder="weight"/>
                 {touched.weight && errors.weight && (
             <p className="errors"> {errors.weight} </p>
           )}
                 </label>
                 <label htmlFor="reps">
-                <InputField id ="reps" type="text" name="reps" placeholder="reps"/>
+                <InputField id ="reps" type="number" name="reps" placeholder="reps"/>
                 {touched.reps && errors.reps && (
             <p className="errors"> {errors.reps} </p>
           )}
@@ -122,8 +122,8 @@ const FormikWorkoutForm = withFormik({
     },
     validationSchema: Yup.object().shape({
         name: Yup.string().required("Name is required!"),
-        weight: Yup.string().required("Weight is required!"),
-        reps: Yup.string().required("Number of reps is required!"),
+        weight: Yup.number().required("Weight is required!").positive().integer(),
+        reps: Yup.number().required("Number of reps is required!").positive().integer(),
       }),
 
       handleSubmit(values, {setStatus, resetForm}) {
