@@ -1,9 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import DrawerToggleButton from "../Components/SideDrawer/DrawerToggleButton";
 import "./NavBar.css";
 
-const NavBar = props => (
+const NavBar = props => {
+  return (
   <header className="navbar">
     <nav className="navbar-navigation">
       <div>
@@ -16,18 +17,23 @@ const NavBar = props => (
       <Router>
         <div className="navbar-navigation-items">
           <div>
-            <Link to={`/`}><a href="/">Work Outs</a></Link>
+           <Link to="/protected/my_workouts"><p>My Workouts</p></Link>
+            {/* <Link to={`/`}><a href="/">Work Outs</a></Link> */}
+            
           </div>
           <div>
             <Link to={`/protected/add_workout`}>Add Exercise</Link>
             </div>
             <div>
-            <Link to={`/`}>Logout</Link>
+              <Link to="/login"><p>Logout</p></Link>
+
+            {/* <Link to={`/`}>Logout</Link> */}
             </div>
         </div>
       </Router>
     </nav>
   </header>
 );
+  }
 export default NavBar;
 
