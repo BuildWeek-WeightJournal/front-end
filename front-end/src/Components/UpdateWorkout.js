@@ -1,40 +1,36 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "./NavBar";
-import axios from "axios";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 import { editWorkout } from "../actions/actions";
 import { connect } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const UpdateWorkout = props => {
   const [workout, setWorkout] = useState({
-    workoutName: "",
-    muscle: "",
-    sets: "",
-    reps: "",
-    note: ""
+    id: "",
+    user_id: null,
+    name: "",
+    reps: null,
+    weight: null,
+    body_region: "",
+    date: ""
   });
 
-  const testWorkout = {
-    workoutName: workout.workoutName,
-    muscle: workout.muscle,
-    sets: workout.sets,
-    reps: workout.reps,
-    note: workout.note,
-    id: workout.id
-  };
+  const workoutId = props.match.params.id;
 
   useEffect(() => {
-    axios
+    axiosWithAuth()
       .get(
-        `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${props.match.params.userId}`
+        `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/workout/${workoutId}`
       )
       .then(res => {
-        console.log(res);
         setWorkout(res.data);
+        console.log(res.data);
       })
       .catch(err => {
         console.log(err);
       });
-  }, [props.match.params.id]);
+  }, [workoutId]);
 
   const handleChanges = e => {
     setWorkout({
@@ -44,19 +40,12 @@ const UpdateWorkout = props => {
   };
 
   const handleSubmit = e => {
+    const userId = localStorage.getItem("userId");
     e.preventDefault();
-    props.editWorkout(workout.id, testWorkout);
+    props.editWorkout(userId, workout);
     setTimeout(() => {
-      props.history.push("/protected/workout");
+      props.history.push("/protected/my_workouts");
     }, 1000);
-    setWorkout({
-      workoutName: "",
-      muscle: "",
-      sets: "",
-      reps: "",
-      note: "",
-      id: ""
-    });
   };
 
   return (
@@ -69,21 +58,21 @@ const UpdateWorkout = props => {
           type="text"
           name="workout"
           placeholder="Name of Workout"
-          value={workout.workoutName}
+          value={workout.name}
           onChange={handleChanges}
         />
         <input
           type="text"
           name="muscle"
           placeholder="Muscle Group"
-          value={workout.muscle}
+          value={workout.body_region}
           onChange={handleChanges}
         />
         <input
-          type="text"
-          name="sets"
-          placeholder="Sets"
-          value={workout.sets}
+          type="number"
+          name="weight"
+          placeholder="Amount of weight"
+          value={workout.weight}
           onChange={handleChanges}
         />
         <input
@@ -91,14 +80,6 @@ const UpdateWorkout = props => {
           name="reps"
           placeholder="Number of Reps"
           value={workout.reps}
-          onChange={handleChanges}
-        />
-
-        <input
-          type="text"
-          name="note"
-          placeholder="Summarize how your workout went"
-          value={workout.note}
           onChange={handleChanges}
         />
         <button type="submit">Save Changes</button>

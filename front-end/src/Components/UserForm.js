@@ -4,6 +4,7 @@ import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import styled from "styled-components";
 import axios from "axios";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 
 const HeaderTwo = styled.h2`
   float: left;
@@ -43,12 +44,13 @@ const StyledLink = styled(Link)`
   color: whitesmoke;
 `;
 
-const UserForm = ({ values, errors, touched, isSubmitting, status }) => {
+const UserForm = ({ values, errors, touched, isSubmitting, status, props }) => {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     // console.log("status has changed", status);
     status && setUsers(users => [...users, status]);
   }, [status]);
+
   return (
     <div>
       <HeaderTwo>WEIGHT-LIFTING-JOURNAL</HeaderTwo>
@@ -78,7 +80,7 @@ const UserForm = ({ values, errors, touched, isSubmitting, status }) => {
           </div>
         </label>
         <Button disabled={isSubmitting}>Register</Button>
-        <Button>
+        <Button disabled={isSubmitting}>
           <StyledLink to="/login">Go Back Home</StyledLink>
         </Button>
       </StyledForm>
@@ -101,28 +103,26 @@ const FormikUserForm = withFormik({
   }),
   handleSubmit(values, { resetForm, setErrors, setSubmitting, setStatus }) {
     setTimeout(() => {
-      if (values.userName === values.userName) {
+      if (values.userName === values.users) {
         setErrors({ userName: "That user is already taken" });
       } else {
         resetForm();
       }
       setSubmitting(false);
     }, 2000);
-    axios
-      .post(
-        "https://weightliftingjournal-buildweek.herokuapp.com/api/users/",
-        values
-      )
+    console.log(values);
+
+    axiosWithAuth()
+      .post("/api/auth/register", values)
       .then(res => {
         // console.log("Success", res);
         setStatus(res.data);
         resetForm();
+        console.log(res.data);
       })
       .catch(err => {
         // console.log("The post requested: ", err.response);
       });
-
-    console.log(values);
   }
 })(UserForm);
 export default FormikUserForm;

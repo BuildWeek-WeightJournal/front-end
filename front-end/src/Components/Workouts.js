@@ -1,30 +1,114 @@
 import React, { useState, useEffect } from "react";
 
-//components
+import SideDrawer from "../Components/SideDrawer/SideDrawer";
+import BackDrop from "../Components/BackDrop/BackDrop";
 import NavBar from "./NavBar";
 
-//redux
-import { editWorkout, fetchWorkouts } from "../actions/actions";
+//from dependencies
+import { editWorkout, fetchWorkouts, deleteWorkout } from "../actions/actions";
 import { connect } from "react-redux";
+import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
+import axios from "axios";
+
+const cardStyle = {
+  margin: "auto",
+  padding: "25px",
+  width: "300px",
+  border: " 1px solid #00a35e",
+  borderradius: "1px"
+};
+const containerStyle = {
+  display: "flex",
+  flexdirection: "row",
+  margin: "auto",
+  width: "1300px"
+};
 
 const Workouts = props => {
   const [workouts, setWorkouts] = useState([]);
+  const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
 
-  const id = props.match.params.id;
+  //Code for the side drawer
 
+  const drawerToggleClickHandler = () => {
+    setSideDrawerOpen(prevState => {
+      return !prevState;
+    });
+  };
+
+  const backDropClickhandler = () => {
+    setSideDrawerOpen(false);
+  };
+
+  let sideDrawer;
+  let backDrop;
+
+  if (sideDrawerOpen) {
+    sideDrawer = <SideDrawer />;
+    backDrop = <BackDrop click={backDropClickhandler} />;
+  }
+  const userId = localStorage.getItem("userId");
+
+  // const handleDelete = (e, id) => {
+  //   e.preventDefault();
+  //   axiosWithAuth().delete(
+  //     `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
+  //   );
+  // };
+
+  console.log(localStorage);
   useEffect(() => {
-    if (props.exerciseList === 0) {
-      props.fetchWorkouts(id);
-    }
-    setWorkouts(props.exerciseList);
-  }, [props, props.exerciseList]);
+    axiosWithAuth()
+      .get(`/api/workouts/${userId}`)
+      .then(res => {
+        setWorkouts(res.data);
+        console.log(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }, [workouts]);
 
-  console.log(setWorkouts);
+  const handleDelete = id => {
+    axios
+      .delete(
+        `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
+      )
+      .catch(res => {
+        console.log(res);
+      });
+  };
 
   return (
     <div>
-      <NavBar />
+      <NavBar drawerClickHandler={drawerToggleClickHandler} />
+      {sideDrawer}
+      {backDrop}
       <h1>My Workouts</h1>
+      <Container>
+        <Row>
+          <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
+            {workouts.map(data => (
+              <Card style={cardStyle} key={data.id}>
+                <CardTitle>Name: {data.name}</CardTitle>
+                <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
+                <CardSubtitle>Weight: {data.weight}</CardSubtitle>
+                <CardSubtitle>Reps: {data.reps}</CardSubtitle>
+                <button
+                  onClick={() =>
+                    props.history.push(`/update_workout/${data.id}`)
+                  }
+                >
+                  Edit
+                </button>
+                {/* <button onClick={() => deleteWorkout(data.id)}>Delete</button> */}
+                <button onClick={() => handleDelete(data.id)}>Delete</button>
+              </Card>
+            ))}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
@@ -32,10 +116,62 @@ const Workouts = props => {
 const mapStateToProps = state => {
   return {
     exerciseList: state.exerciseList,
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    isDeleting: state.isDeleting
   };
 };
 
-export default connect(mapStateToProps, { editWorkout, fetchWorkouts })(
-  Workouts
-);
+export default connect(mapStateToProps, {
+  editWorkout,
+  fetchWorkouts,
+  deleteWorkout
+})(Workouts);
+
+//   useEffect(() => {
+//     const id = '';
+//     axios
+//       .get(
+//         `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId/${id}`
+//       )
+//       .then(res => {
+//         setWorkouts(res.data);
+//         console.log(res.data)
+//       })
+//       .catch(err => {
+//         console.log(err);
+//       });
+//   }, []);
+
+{
+  /* //       {workouts.map(workoutList => { 
+//         return (
+//           <div key={workoutList.id}>
+//             <CardDeck className="wrapper">
+//               <Card className="card-wrapper" key={workouts.id}>
+//                 <CardBody className="card-body">
+//                   {/* <CardTitle>Date: {exerciseList.date}</CardTitle> 
+//                   <CardTitle>Exercise: workoutList.workoutName}</CardTitle>
+//                   <CardTitle>Weight: {workoutList.weight}</CardTitle>
+//                   <CardSubtitle>Sets: {workoutList.sets}</CardSubtitle>
+//                   <CardSubtitle>Reps: {workoutList.reps}</CardSubtitle>
+//                   <CardSubtitle>
+//                     Journal Entry: {workoutList.notes}
+//                   </CardSubtitle>
+//                   <br />
+                  
+//                   <br />
+//                   <Button onClick={() => handleDelete(workoutList.id)}>
+//                     Delete
+//                   </Button>
+                  
+//                 </CardBody>
+//               </Card>
+//             </CardDeck>
+//           </div>
+//         );
+//       })}
+//     </div>
+//   );
+// };
+// export default Workouts; */
+}

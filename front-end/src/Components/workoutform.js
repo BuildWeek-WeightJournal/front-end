@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 // import anime from './anime-master/lib/anime.es.js';
-
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
 import { InputForm, InputField, Button } from "./styles";
 import styled from "styled-components";
-
 import NavBar from "./NavBar";
-
 import SideDrawer from "./SideDrawer/SideDrawer";
 import BackDrop from "./BackDrop/BackDrop";
-
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 //Select button with query selector then use animejs library to add animation
-
 // var elements = document.querySelectorAll("button");
 // anime({
 //   targets: elements,
 //   translateX: 270
 // });
-
 const cardStyle = {
   margin: "auto",
   padding: "25px",
@@ -35,10 +29,8 @@ const containerStyle = {
   margin: "auto",
   width: "1300px"
 };
-
 const WorkoutForm = ({ values, errors, touched, status }) => {
   const [workout, setWorkout] = useState([{}]);
-
   useEffect(() => {
     console.log("status has changed", status);
     status && setWorkout(workout => [...workout, status]);
@@ -67,38 +59,22 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
           <option value="Calves">Calves</option>
         </InputField>
         <label htmlFor="weight">
-          <Field id="weight" type="number" name="weight" placeholder="weight" />
+          <Field id="weight" type="weight" name="weight" placeholder="weight" />
           {touched.weight && errors.weight && (
             <p className="errors"> {errors.weight} </p>
           )}
         </label>
         <label htmlFor="reps">
-          <InputField id="reps" type="number" name="reps" placeholder="reps" />
+          <InputField id="reps" type="text" name="reps" placeholder="reps" />
           {touched.reps && errors.reps && (
             <p className="errors"> {errors.reps} </p>
           )}
         </label>
         <Button type="submit">Add Workout</Button>
       </InputForm>
-      <Container>
-        <Row>
-          <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
-            {workout.map(props => (
-              <Card style={cardStyle} key={props.id}>
-                <CardTitle>Name: {props.name}</CardTitle>
-                <CardSubtitle>Body Region: {props.body_region}</CardSubtitle>
-                <CardSubtitle>Weight: {props.weight}</CardSubtitle>
-                <CardSubtitle>Reps: {props.reps}</CardSubtitle>
-                <button> Edit Workout</button>
-              </Card>
-            ))}
-          </Col>
-        </Row>
-      </Container>
     </div>
   );
 };
-
 const FormikWorkoutForm = withFormik({
   mapPropsToValues({ name, body_region, weight, reps }) {
     return {
@@ -110,23 +86,14 @@ const FormikWorkoutForm = withFormik({
   },
   validationSchema: Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    weight: Yup.number()
-      .required("Weight is required!")
-      .positive()
-      .integer(),
-    reps: Yup.number()
-      .required("Number of reps is required!")
-      .positive()
-      .integer()
+    weight: Yup.string().required("Weight is required!"),
+    reps: Yup.string().required("Number of reps is required!")
   }),
-
   handleSubmit(values, { setStatus, resetForm }) {
     console.log("submitting", values);
-    axios
-      .post(
-        "https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId",
-        values
-      )
+    const id = localStorage.getItem("userId");
+    axiosWithAuth()
+      .post(`/api/workouts/${id}`, values)
       .then(res => {
         console.log("success", res);
         setStatus(res.data);
@@ -135,7 +102,6 @@ const FormikWorkoutForm = withFormik({
       .catch(err => console.log(err.response));
   }
 })(WorkoutForm);
-
 const mapStateToProps = state => {
   return {};
 };
