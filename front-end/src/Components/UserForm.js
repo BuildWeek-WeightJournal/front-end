@@ -5,8 +5,7 @@ import * as Yup from "yup";
 import styled from "styled-components";
 import axios from "axios";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
-import device from "./device";
- const FormWrapper = styled.div`
+const FormWrapper = styled.div`
   width:100%;
   `;
 
@@ -61,11 +60,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
- 
-    
-
-
-const UserForm = ( { values, errors, touched, isSubmitting, status}) => {
+ const UserForm = ( { values, errors, touched, isSubmitting, status}) => {
   const [username, setUserName] = useState([]);
   useEffect(() => {
     console.log("status has changed", status);
@@ -124,12 +119,11 @@ const FormikUserForm = withFormik({
   }),
   
   
-  handleSubmit(values,props,{ resetForm, setErrors, setSubmitting, setStatus, }) {
+  handleSubmit(values,{ resetForm, setErrors, setSubmitting, setStatus, }) {
      setTimeout(() => {
       if (values.username === values.username) {
         setErrors({ username: "That user is already taken" });
-      } else {
-       props.history.push("/login");
+      
       }
       setSubmitting(false);
     }, 2000);
