@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import styled from "styled-components";
 import axios from "axios";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
-import device from "./device";
+
  const FormWrapper = styled.div`
   width:100%;
   `;
