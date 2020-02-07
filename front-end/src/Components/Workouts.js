@@ -1,33 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-// import axios from 'axios';
-// import {
-//   Card,
-//   CardTitle,
-//   CardSubtitle,
-//   CardBody,
-//   CardDeck,
-//   Button
-// } from "reactstrap";
-
-// const Workouts = props => {
-//   const [workouts, setWorkouts] = useState([]);
-
-//   const handleDelete = id => {
-//     axios
-//       .delete(
-//         `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:workoutId/${id}`
-//       )
-//       .then(res => {
-//         props.history.go("/protected/my_workouts");
-//       })
-//       .catch(res => {
-//         console.log(res);
-//       });
-//   };
-// =======
-
-//components
+import SideDrawer from "../Components/SideDrawer/SideDrawer";
+import BackDrop from "../Components/BackDrop/BackDrop";
 import NavBar from "./NavBar";
 
 //from dependencies
@@ -52,7 +26,27 @@ const containerStyle = {
 
 const Workouts = props => {
   const [workouts, setWorkouts] = useState([]);
+  const [sideDrawerOpen, setSideDrawerOpen] = useState(false);
 
+  //Code for the side drawer
+
+  const drawerToggleClickHandler = () => {
+    setSideDrawerOpen(prevState => {
+      return !prevState;
+    });
+  };
+
+  const backDropClickhandler = () => {
+    setSideDrawerOpen(false);
+  };
+
+  let sideDrawer;
+  let backDrop;
+
+  if (sideDrawerOpen) {
+    sideDrawer = <SideDrawer />;
+    backDrop = <BackDrop click={backDropClickhandler} />;
+  }
   const userId = localStorage.getItem("userId");
 
   const handleDelete = (e, id) => {
@@ -77,7 +71,9 @@ const Workouts = props => {
 
   return (
     <div>
-      <NavBar />
+      <NavBar drawerClickHandler={drawerToggleClickHandler} />
+      {sideDrawer}
+      {backDrop}
       <h1>My Workouts</h1>
       <Container>
         <Row>
