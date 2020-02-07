@@ -9,6 +9,7 @@ import { editWorkout, fetchWorkouts, deleteWorkout } from "../actions/actions";
 import { connect } from "react-redux";
 import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
+import axios from "axios";
 
 const cardStyle = {
   margin: "auto",
@@ -49,12 +50,12 @@ const Workouts = props => {
   }
   const userId = localStorage.getItem("userId");
 
-  const handleDelete = (e, id) => {
-    e.preventDefault();
-    axiosWithAuth().delete(
-      `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
-    );
-  };
+  // const handleDelete = (e, id) => {
+  //   e.preventDefault();
+  //   axiosWithAuth().delete(
+  //     `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
+  //   );
+  // };
 
   console.log(localStorage);
   useEffect(() => {
@@ -69,34 +70,54 @@ const Workouts = props => {
       });
   }, []);
 
+  const handleDelete = id => {
+    axios
+      .delete(
+        `https://weightliftingjournal-buildweek.herokuapp.com/workouts/${id}`
+      )
+      .then(res => {
+        props.history.push.go("/protected/my_workouts");
+      })
+      .catch(res => {
+        console.log(res);
+      });
+  };
+
   return (
     <div>
       <NavBar drawerClickHandler={drawerToggleClickHandler} />
       {sideDrawer}
       {backDrop}
       <h1>My Workouts</h1>
-      <Container>
-        <Row>
-          <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
-            {workouts.map(data => (
-              <Card style={cardStyle} key={data.id}>
-                <CardTitle>Name: {data.name}</CardTitle>
-                <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
-                <CardSubtitle>Weight: {data.weight}</CardSubtitle>
-                <CardSubtitle>Reps: {data.reps}</CardSubtitle>
-                <button
-                  onClick={() =>
-                    props.history.push(`/update_workout/${data.id}`)
-                  }
-                >
-                  Edit
-                </button>
-                <button onClick={() => deleteWorkout(data.id)}>Delete</button>
-              </Card>
-            ))}
-          </Col>
-        </Row>
-      </Container>
+      {workouts.map(workoutList => {
+        return (
+          <Container>
+            <Row>
+              <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
+                {workouts.map(data => (
+                  <Card style={cardStyle} key={data.id}>
+                    <CardTitle>Name: {data.name}</CardTitle>
+                    <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
+                    <CardSubtitle>Weight: {data.weight}</CardSubtitle>
+                    <CardSubtitle>Reps: {data.reps}</CardSubtitle>
+                    <button
+                      onClick={() =>
+                        props.history.push(`/update_workout/${data.id}`)
+                      }
+                    >
+                      Edit
+                    </button>
+                    {/* <button onClick={() => deleteWorkout(data.id)}>Delete</button> */}
+                    <button onClick={() => handleDelete(workoutList.id)}>
+                      Delete
+                    </button>
+                  </Card>
+                ))}
+              </Col>
+            </Row>
+          </Container>
+        );
+      })}
     </div>
   );
 };
