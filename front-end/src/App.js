@@ -26,7 +26,7 @@ function App() {
             render={props => <UpdateWorkout {...props} />}
           />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} />
+          <Route exact path="/signup" component={UserForm} />
           <Route component={Login} />
         </Switch>
       </Router>
