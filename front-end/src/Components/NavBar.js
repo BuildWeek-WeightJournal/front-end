@@ -16,7 +16,7 @@ const NavBar = props => {
         <div className="spacer" />
         <div className="navbar-navigation-items">
           <div>
-            <Link to="/protected/my_workouts">Work Outs</Link>
+            <Link to="/protected/my_workouts">Workouts</Link>
           </div>
           <div>
             <Link to="/protected/add_workout">New Workout</Link>
