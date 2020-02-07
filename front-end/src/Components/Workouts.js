@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import SideDrawer from "../Components/SideDrawer/SideDrawer";
 import BackDrop from "../Components/BackDrop/BackDrop";
 import NavBar from "./NavBar";
+import Anime from "react-anime";
 
 //from dependencies
 import { editWorkout, fetchWorkouts, deleteWorkout } from "../actions/actions";
@@ -88,7 +89,9 @@ const Workouts = props => {
       <NavBar drawerClickHandler={drawerToggleClickHandler} />
       {sideDrawer}
       {backDrop}
+      <Anime rotate={720}>
       <h1 style={headerStyle}>My Workouts</h1>
+      </Anime>
       <Container>
         <Row>
           <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>

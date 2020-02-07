@@ -2,27 +2,18 @@ import React, { useState, useEffect } from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
 import { InputForm, InputField, Button } from "./styles";
 import styled from "styled-components";
 import NavBar from "./NavBar";
 import SideDrawer from "./SideDrawer/SideDrawer";
 import BackDrop from "./BackDrop/BackDrop";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
+import Anime from "react-anime";
 
-const cardStyle = {
-  margin: "auto",
-  padding: "25px",
-  width: "300px",
-  border: " 1px solid #00a35e",
-  borderradius: "1px"
+const headerStyle = {
+  margin: "0 0 0 0"
 };
-const containerStyle = {
-  display: "flex",
-  flexdirection: "row",
-  margin: "auto",
-  width: "1300px"
-};
+
 const WorkoutForm = ({ values, errors, touched, status }) => {
   const [workout, setWorkout] = useState([{}]);
   useEffect(() => {
@@ -32,6 +23,9 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
   return (
     <div className="workout-form">
       <NavBar/>
+      <Anime rotate={720}>
+      <h1 style={headerStyle}>Add Workouts</h1>
+      </Anime>
       <InputForm>
         <label htmlFor="name">
           Please enter your a name for your workout:
@@ -65,7 +59,7 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
             <p className="errors"> {errors.reps} </p>
           )}
         </label>
-        <Button type="submit">Add Workout</Button>
+        <Button className="submitButton" type="submit">Add Workout</Button>
       </InputForm>
     </div>
   );
