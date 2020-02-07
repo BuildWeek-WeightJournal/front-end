@@ -5,11 +5,10 @@ import * as Yup from "yup";
 import styled from "styled-components";
 import axios from "axios";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
-
-const HeaderTwo = styled.h2`
-  float: left;
-  height: 100%vh;
-`;
+import device from "./device";
+ const FormWrapper = styled.div`
+  width:100%;
+  `;
 
 const StyledForm = styled(Form)`
   padding: 2rem;
@@ -17,11 +16,21 @@ const StyledForm = styled(Form)`
   margin: 0 auto;
   background: #fff;
   height: 70vh;
+ `;
+
+const HeaderTwo = styled.h2`
+  float: left;
+  height: 100%vh;
+  
+  @media:(max-wdith:500px){
+  font-size:1.3rem;
+  text-align:center;
+   } 
 `;
 
 const Input = styled(Field)`
   margin: 1.5rem auto;
-  padding: 1rem;
+  padding: .7rem;
   border: none;
   width: 10rem;
   border-bottom: 2px solid #00a35e;
@@ -30,21 +39,33 @@ const Input = styled(Field)`
 `;
 
 const Button = styled.button`
-  margin: 1.5rem auto;
-  border-radius: 3px solid;
-  padding: 15px;
+  margin: 1.2rem auto;
+  border-radius: 2px solid;
+  padding: 10px;
   width: 12rem;
   background: green;
   color: whitesmoke;
   font-size: 1.5rem;
   cursor: pointer;
+  
+  &:hover{
+      background:whitesmoke;
+      color:#00a35e;
+  }
 `;
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: whitesmoke;
+  &:hover{
+      color:#00a35e;
+  }
 `;
 
-const UserForm = ({ values, errors, touched, isSubmitting, status }) => {
+ 
+    
+
+
+const UserForm = ( { values, errors, touched, isSubmitting, status}) => {
   const [username, setUserName] = useState([]);
   useEffect(() => {
     console.log("status has changed", status);
@@ -52,16 +73,16 @@ const UserForm = ({ values, errors, touched, isSubmitting, status }) => {
   }, [status]);
 
   return (
-    <div>
+    <FormWrapper>
       <HeaderTwo>WEIGHT-LIFTING-JOURNAL</HeaderTwo>
       <StyledForm className="parent">
         <div>
-          <label className="for-label" htmlFor="userName">
+          <label className="for-label" htmlFor="username">
             <h1>Register</h1>
           </label>
           {touched.username && errors.username && <p>{errors.username}</p>}
           <Input
-            id="userName"
+            id="username"
             type="text"
             name="username"
             placeholder="Username"
@@ -84,7 +105,7 @@ const UserForm = ({ values, errors, touched, isSubmitting, status }) => {
           <StyledLink to="/login">Go Back Home</StyledLink>
         </Button>
       </StyledForm>
-    </div>
+  </FormWrapper>
   );
 };
 
@@ -103,12 +124,12 @@ const FormikUserForm = withFormik({
   }),
   
   
-  handleSubmit(values,{ resetForm, setErrors, setSubmitting, setStatus }) {
+  handleSubmit(values,props,{ resetForm, setErrors, setSubmitting, setStatus, }) {
      setTimeout(() => {
       if (values.username === values.username) {
         setErrors({ username: "That user is already taken" });
       } else {
-        resetForm();
+       props.history.push("/login");
       }
       setSubmitting(false);
     }, 2000);
