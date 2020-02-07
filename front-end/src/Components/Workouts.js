@@ -11,6 +11,9 @@ import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
 import axios from "axios";
 
+const headerStyle = {
+  margin: "150px 0 0 0"
+};
 const cardStyle = {
   margin: "auto",
   padding: "25px",
@@ -85,7 +88,7 @@ const Workouts = props => {
       <NavBar drawerClickHandler={drawerToggleClickHandler} />
       {sideDrawer}
       {backDrop}
-      <h1>My Workouts</h1>
+      <h1 style={headerStyle}>My Workouts</h1>
       <Container>
         <Row>
           <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
@@ -102,7 +105,6 @@ const Workouts = props => {
                 >
                   Edit
                 </button>
-                {/* <button onClick={() => deleteWorkout(data.id)}>Delete</button> */}
                 <button onClick={() => handleDelete(data.id)}>Delete</button>
               </Card>
             ))}
@@ -126,52 +128,3 @@ export default connect(mapStateToProps, {
   fetchWorkouts,
   deleteWorkout
 })(Workouts);
-
-//   useEffect(() => {
-//     const id = '';
-//     axios
-//       .get(
-//         `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId/${id}`
-//       )
-//       .then(res => {
-//         setWorkouts(res.data);
-//         console.log(res.data)
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   }, []);
-
-{
-  /* //       {workouts.map(workoutList => { 
-//         return (
-//           <div key={workoutList.id}>
-//             <CardDeck className="wrapper">
-//               <Card className="card-wrapper" key={workouts.id}>
-//                 <CardBody className="card-body">
-//                   {/* <CardTitle>Date: {exerciseList.date}</CardTitle> 
-//                   <CardTitle>Exercise: workoutList.workoutName}</CardTitle>
-//                   <CardTitle>Weight: {workoutList.weight}</CardTitle>
-//                   <CardSubtitle>Sets: {workoutList.sets}</CardSubtitle>
-//                   <CardSubtitle>Reps: {workoutList.reps}</CardSubtitle>
-//                   <CardSubtitle>
-//                     Journal Entry: {workoutList.notes}
-//                   </CardSubtitle>
-//                   <br />
-                  
-//                   <br />
-//                   <Button onClick={() => handleDelete(workoutList.id)}>
-//                     Delete
-//                   </Button>
-                  
-//                 </CardBody>
-//               </Card>
-//             </CardDeck>
-//           </div>
-//         );
-//       })}
-//     </div>
-//   );
-// };
-// export default Workouts; */
-}

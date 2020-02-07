@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import anime from './anime-master/lib/anime.es.js';
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
@@ -10,12 +9,7 @@ import NavBar from "./NavBar";
 import SideDrawer from "./SideDrawer/SideDrawer";
 import BackDrop from "./BackDrop/BackDrop";
 import { axiosWithAuth } from "./utils/axiosWithAuth";
-//Select button with query selector then use animejs library to add animation
-// var elements = document.querySelectorAll("button");
-// anime({
-//   targets: elements,
-//   translateX: 270
-// });
+
 const cardStyle = {
   margin: "auto",
   padding: "25px",
@@ -37,6 +31,7 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
   }, [status]);
   return (
     <div className="workout-form">
+      <NavBar/>
       <InputForm>
         <label htmlFor="name">
           Please enter your a name for your workout:
@@ -59,13 +54,13 @@ const WorkoutForm = ({ values, errors, touched, status }) => {
           <option value="Calves">Calves</option>
         </InputField>
         <label htmlFor="weight">
-          <Field id="weight" type="weight" name="weight" placeholder="weight" />
+          <Field id="weight" type="number" name="weight" placeholder="weight" />
           {touched.weight && errors.weight && (
             <p className="errors"> {errors.weight} </p>
           )}
         </label>
         <label htmlFor="reps">
-          <InputField id="reps" type="text" name="reps" placeholder="reps" />
+          <InputField id="reps" type="number" name="reps" placeholder="reps" />
           {touched.reps && errors.reps && (
             <p className="errors"> {errors.reps} </p>
           )}
@@ -86,8 +81,8 @@ const FormikWorkoutForm = withFormik({
   },
   validationSchema: Yup.object().shape({
     name: Yup.string().required("Name is required!"),
-    weight: Yup.string().required("Weight is required!"),
-    reps: Yup.string().required("Number of reps is required!")
+    weight: Yup.number().required("Weight is required!").positive().integer(),
+    reps: Yup.number().required("Number of reps is required!").positive().integer()
   }),
   handleSubmit(values, { setStatus, resetForm }) {
     console.log("submitting", values);
@@ -102,7 +97,4 @@ const FormikWorkoutForm = withFormik({
       .catch(err => console.log(err.response));
   }
 })(WorkoutForm);
-const mapStateToProps = state => {
-  return {};
-};
 export default FormikWorkoutForm;

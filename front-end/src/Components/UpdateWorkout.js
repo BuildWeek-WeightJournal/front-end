@@ -5,6 +5,10 @@ import { editWorkout } from "../actions/actions";
 import { connect } from "react-redux";
 import { useParams } from "react-router-dom";
 
+const headerStyle = {
+  margin: "150px 0 0 0"
+};
+
 const UpdateWorkout = props => {
   const [workout, setWorkout] = useState({
     id: "",
@@ -51,7 +55,7 @@ const UpdateWorkout = props => {
   return (
     <div>
       <NavBar />
-      <h1>Log Completed Exercise</h1>
+      <h1 style={headerStyle}>Log Completed Exercise</h1>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -62,9 +66,9 @@ const UpdateWorkout = props => {
           onChange={handleChanges}
         />
         <input
-          type="text"
-          name="muscle"
-          placeholder="Muscle Group"
+          as="select"
+          name="body_region"
+          placeholder="Body Region"
           value={workout.body_region}
           onChange={handleChanges}
         />
