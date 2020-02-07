@@ -68,16 +68,13 @@ const Workouts = props => {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [workouts]);
 
   const handleDelete = id => {
     axios
       .delete(
-        `https://weightliftingjournal-buildweek.herokuapp.com/workouts/${id}`
+        `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
       )
-      .then(res => {
-        props.history.push.go("/protected/my_workouts");
-      })
       .catch(res => {
         console.log(res);
       });
@@ -89,35 +86,29 @@ const Workouts = props => {
       {sideDrawer}
       {backDrop}
       <h1>My Workouts</h1>
-      {workouts.map(workoutList => {
-        return (
-          <Container>
-            <Row>
-              <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
-                {workouts.map(data => (
-                  <Card style={cardStyle} key={data.id}>
-                    <CardTitle>Name: {data.name}</CardTitle>
-                    <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
-                    <CardSubtitle>Weight: {data.weight}</CardSubtitle>
-                    <CardSubtitle>Reps: {data.reps}</CardSubtitle>
-                    <button
-                      onClick={() =>
-                        props.history.push(`/update_workout/${data.id}`)
-                      }
-                    >
-                      Edit
-                    </button>
-                    {/* <button onClick={() => deleteWorkout(data.id)}>Delete</button> */}
-                    <button onClick={() => handleDelete(workoutList.id)}>
-                      Delete
-                    </button>
-                  </Card>
-                ))}
-              </Col>
-            </Row>
-          </Container>
-        );
-      })}
+      <Container>
+        <Row>
+          <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
+            {workouts.map(data => (
+              <Card style={cardStyle} key={data.id}>
+                <CardTitle>Name: {data.name}</CardTitle>
+                <CardSubtitle>Body Region: {data.body_region}</CardSubtitle>
+                <CardSubtitle>Weight: {data.weight}</CardSubtitle>
+                <CardSubtitle>Reps: {data.reps}</CardSubtitle>
+                <button
+                  onClick={() =>
+                    props.history.push(`/update_workout/${data.id}`)
+                  }
+                >
+                  Edit
+                </button>
+                {/* <button onClick={() => deleteWorkout(data.id)}>Delete</button> */}
+                <button onClick={() => handleDelete(data.id)}>Delete</button>
+              </Card>
+            ))}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
