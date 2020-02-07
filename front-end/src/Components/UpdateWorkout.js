@@ -44,7 +44,7 @@ const UpdateWorkout = props => {
     e.preventDefault();
     props.editWorkout(userId, workout);
     setTimeout(() => {
-      props.history.push("/protected/workout");
+      props.history.push("/protected/my_workouts");
     }, 1000);
   };
 

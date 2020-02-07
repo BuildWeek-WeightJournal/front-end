@@ -1,240 +1,108 @@
- import React, { useState } from "react";
-import { connect } from "react-redux";
-import { postWorkout } from "..//actions/actions";
-
-const WorkoutForm = props => {
-  const [workout, setWorkout] = useState({
-    workoutName: "",
-    muscle: "",
-    sets: "",
-    reps: "",
-    notes: ""
-  });
-
-  const handleChanges = e => {
-    setWorkout({
-      ...workout,
-      [e.target.name]: e.target.value,
-    
-    })
-  }
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    props.postWorkout(workout);
-    setTimeout(() => {
-      props.history.push('/protected/my_workouts')
-    }, 1000)
-    setWorkout({
-      workoutName: "",
-      muscle: "",
-      sets: "",
-      reps: "",
-      notes: ""
-    })
-  }
-
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-      <input
-            type="text"
-            name="workoutName"
-            placeholder="Name of Exercise"
-            value={workout.name}
-            onChange={handleChanges}
-          />
-          <input
-            type="text"
-            name="muscle"
-            placeholder="Muscle Group"
-            value={workout.muscle}
-            onChange={handleChanges}
-          />
-          <input
-            type="number"
-            name="sets"
-            placeholder="Sets"
-            value={workout.sets}
-            onChange={handleChanges}
-          />
-          <input
-            type="number"
-            name="reps"
-            placeholder="Number of Reps"
-            value={workout.reps}
-            onChange={handleChanges}
-          />
-          <input
-            type="textarea"
-            name="notes"
-            placeholder="Notes"
-            value={workout.notes}
-            onChange={handleChanges}
-          />
-
-          <button type="submit">Add Workout</button> 
-      </form>
-    </div>
-  )
+import React, { useState, useEffect } from "react";
+// import anime from './anime-master/lib/anime.es.js';
+import { withFormik, Form, Field } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import { Container, Row, Col, Card, CardTitle, CardSubtitle } from "reactstrap";
+import { InputForm, InputField, Button } from "./styles";
+import styled from "styled-components";
+import NavBar from "./NavBar";
+import SideDrawer from "./SideDrawer/SideDrawer";
+import BackDrop from "./BackDrop/BackDrop";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
+//Select button with query selector then use animejs library to add animation
+// var elements = document.querySelectorAll("button");
+// anime({
+//   targets: elements,
+//   translateX: 270
+// });
+const cardStyle = {
+  margin: "auto",
+  padding: "25px",
+  width: "300px",
+  border: " 1px solid #00a35e",
+  borderradius: "1px"
 };
-
-const mapStateToProps = state => {
-  return {
-
+const containerStyle = {
+  display: "flex",
+  flexdirection: "row",
+  margin: "auto",
+  width: "1300px"
+};
+const WorkoutForm = ({ values, errors, touched, status }) => {
+  const [workout, setWorkout] = useState([{}]);
+  useEffect(() => {
+    console.log("status has changed", status);
+    status && setWorkout(workout => [...workout, status]);
+  }, [status]);
+  return (
+    <div className="workout-form">
+      <InputForm>
+        <label htmlFor="name">
+          Please enter your a name for your workout:
+          <Field id="name" type="text" name="name" placeholder="name" />
+          {touched.name && errors.name && (
+            <p className="errors"> {errors.name} </p>
+          )}
+        </label>
+        <InputField className="body_region" as="select" name="body_region">
+          <option>Choose a muscle group</option>
+          <option value="Chest">Chest</option>
+          <option value="Biceps">Biceps</option>
+          <option value="Triceps">Triceps</option>
+          <option value="Trapezius">Trapezius</option>
+          <option value="Deltoids">Deltoids</option>
+          <option value="Shoulders">Shoulders</option>
+          <option value="Abdominals">Abdominals</option>
+          <option value="Gluteals">Gluteals</option>
+          <option value="Thighs">Thighs</option>
+          <option value="Calves">Calves</option>
+        </InputField>
+        <label htmlFor="weight">
+          <Field id="weight" type="weight" name="weight" placeholder="weight" />
+          {touched.weight && errors.weight && (
+            <p className="errors"> {errors.weight} </p>
+          )}
+        </label>
+        <label htmlFor="reps">
+          <InputField id="reps" type="text" name="reps" placeholder="reps" />
+          {touched.reps && errors.reps && (
+            <p className="errors"> {errors.reps} </p>
+          )}
+        </label>
+        <Button type="submit">Add Workout</Button>
+      </InputForm>
+    </div>
+  );
+};
+const FormikWorkoutForm = withFormik({
+  mapPropsToValues({ name, body_region, weight, reps }) {
+    return {
+      name: name || "",
+      body_region: body_region || "",
+      weight: weight || "",
+      reps: reps || ""
+    };
+  },
+  validationSchema: Yup.object().shape({
+    name: Yup.string().required("Name is required!"),
+    weight: Yup.string().required("Weight is required!"),
+    reps: Yup.string().required("Number of reps is required!")
+  }),
+  handleSubmit(values, { setStatus, resetForm }) {
+    console.log("submitting", values);
+    const id = localStorage.getItem("userId");
+    axiosWithAuth()
+      .post(`/api/workouts/${id}`, values)
+      .then(res => {
+        console.log("success", res);
+        setStatus(res.data);
+        resetForm();
+      })
+      .catch(err => console.log(err.response));
   }
-}
-
-export default connect(mapStateToProps, { postWorkout })(WorkoutForm);
-
-// import React, { useState, useEffect } from "react";
-
-// // import anime from './anime-master/lib/anime.es.js';
-
-// import { withFormik, Form, Field } from "formik";
-// import * as Yup from "yup";
-// import axios from "axios";
-// import {
-//   Container,
-//   Row,
-//   Col,
-//   Card,
-//   CardTitle,
-//   CardSubtitle,
-//   CardText
-// } from "reactstrap";
-// import{
-//   InputForm,
-//   InputField,
-//   Button,
-// } from "./styles";
-// import styled from "styled-components";
-
-// import NavBar from "./NavBar";
-
-// import SideDrawer from "./SideDrawer/SideDrawer";
-// import BackDrop from "./BackDrop/BackDrop";
-
-// //Select button with query selector then use animejs library to add animation
-
-// // var elements = document.querySelectorAll("button");
-// // anime({
-// //   targets: elements,
-// //   translateX: 270
-// // });
-
-// const cardStyle={
-//   margin: "auto",
-//   padding: "25px",
-//   width: "300px",
-//   border: " 1px solid #00a35e",
-//   borderradius: "1px",
-// };
-// const containerStyle={
-//   display: "flex",
-//   flexdirection: "row",
-//   margin: "auto",
-//   width: "1300px",
-// };
-
-// const WorkoutForm = ({ values, errors, touched, status, props }) => {
-// const [workout, setWorkout] = useState([{}]);
-//   useEffect(() => {
-//     console.log("status has changed", status);
-//     status && setWorkout(workout =>
-//     [...workout, status])
-// },[status]);
-//     return(
-//         <div className="workout-form">
-//             <InputForm>
-//                 <label htmlFor="name">
-//                     Please enter your a name for your workout:
-//                 <Field id ="name" type="text" name="name" placeholder="name"/>
-//                 {touched.name && errors.name && (
-//             <p className="errors"> {errors.name} </p>
-//           )}
-//                 </label>
-//                 <InputField className="muscle" as="select" name="muscle">
-//                     <option>Choose a muscle group</option>
-//                     <option value="Chest">Chest</option>
-//                     <option value="Biceps">Biceps</option>
-//                     <option value="Triceps">Triceps</option>
-//                     <option value="Trapezius">Trapezius</option>
-//                     <option value="Deltoids">Deltoids</option>
-//                     <option value="Shoulders">Shoulders</option>
-//                     <option value="Abdominals">Abdominals</option>
-//                     <option value="Gluteals">Gluteals</option>
-//                     <option value="Thighs">Thighs</option>
-//                     <option value="Calves">Calves</option>
-//                 </InputField>
-//                 <label htmlFor="sets">
-//                 <Field id ="sets" type="text" name="sets" placeholder="sets"/>
-//                 {touched.sets && errors.sets && (
-//             <p className="errors"> {errors.sets} </p>
-//           )}
-//                 </label>
-//                 <label htmlFor="reps">
-//                 <InputField id ="reps" type="text" name="reps" placeholder="reps"/>
-//                 {touched.reps && errors.reps && (
-//             <p className="errors"> {errors.reps} </p>
-//           )}
-//                 </label>
-//                 <Field as="textarea" type="text" name="notes" placeholder="Notes" />
-//                 <Button type="submit">Add Workout</Button>
-//             </InputForm>
-//     <Container>
-//     <Row>
-//     <Col xs="12" sm="6" md="4" xl="3" style={containerStyle}>
-//   {workout.map(props => (
-//       <Card style={cardStyle} key={props.id}>
-//         <CardTitle>Name: {props.name}</CardTitle>
-//         <CardSubtitle>Muscle: {props.muscle}</CardSubtitle>
-//         <CardSubtitle>Sets: {props.sets}</CardSubtitle>
-//         <CardSubtitle>Reps: {props.reps}</CardSubtitle>
-//         <CardText >Notes: {props.notes}</CardText>
-//         <button> Edit Workout</button>
-// 	   </Card>
-// 	))}
-//     </Col>
-//   </Row>
-//   </Container>
-//         </div>
-//     )
-// };
-
-// const FormikWorkoutForm = withFormik({
-//   mapPropsToValues({ name, muscle, sets, reps, notes }) {
-//     return {
-//       name: name || "",
-//       muscle: muscle || "",
-//       sets: sets || "",
-//       reps: reps || "",
-//       notes: notes || ""
-//     };
-//   },
-//   validationSchema: Yup.object().shape({
-//     workoutName: Yup.string().required("Name is required!"),
-//     muscle: Yup.string().required(),
-//     sets: Yup.string().required(),
-//     reps: Yup.string().required()
-//   }),
-
-//   handleSubmit(values, { setStatus, resetForm }) {
-//     console.log("submitting", values);
-
-//     axios
-//       .post("https://reqres.in/api/users/", values)
-//       // .post(`http://weightliftingjournal-buildweek.herokuapp.com/api/workouts/:userId`)
-//       .then(res => {
-//         console.log("success", res);
-//         setStatus(res.data);
-//         resetForm();
-//       })
-//       .catch(err => console.log(err.response));
-//   }
-// })(WorkoutForm);
-
-// const mapStateToProps = state => {
-//   return {};
-// };
-// export default FormikWorkoutForm;
+})(WorkoutForm);
+const mapStateToProps = state => {
+  return {};
+};
+export default FormikWorkoutForm;
