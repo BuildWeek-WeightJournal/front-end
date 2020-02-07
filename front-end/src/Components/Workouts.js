@@ -73,7 +73,7 @@ const Workouts = props => {
   const handleDelete = id => {
     axios
       .delete(
-        `https://weightliftingjournal-buildweek.herokuapp.com/workouts/${id}`
+        `https://weightliftingjournal-buildweek.herokuapp.com/api/workouts/${id}`
       )
       .then(res => {
         props.history.push.go("/protected/my_workouts");
